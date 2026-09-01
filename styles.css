@@ -535,15 +535,24 @@ body.menu-open .site-header::before { opacity: 0; }
   border-block: var(--bd) solid var(--purple);
 }
 .marquee-track {
-  display: flex; align-items: center; gap: clamp(20px, 3vw, 44px);
+  --marquee-gap: clamp(24px, 3vw, 44px);
+  display: flex; align-items: center;
   width: max-content;
   font-family: var(--display);
   font-size: clamp(22px, 3vw, 44px);
   letter-spacing: .01em;
-  animation: marquee 26s linear infinite;
+  animation: marquee 22s linear infinite;
+  will-change: transform;
+}
+.marquee-group {
+  display: flex; align-items: center;
+  flex: none;
+  gap: var(--marquee-gap);
+  padding-right: var(--marquee-gap);
 }
 .marquee-track b { color: var(--orange); font-weight: 400; font-size: .62em; }
-@keyframes marquee { to { transform: translateX(-50%); } }
+@keyframes marquee { to { transform: translate3d(-50%, 0, 0); } }
+.marquee:hover .marquee-track { animation-play-state: paused; }
 /* Continuous animations idle while their section is off-screen */
 .is-paused .marquee-track,
 .hero.is-paused .sticker-hero { animation-play-state: paused; }
@@ -1131,18 +1140,26 @@ body,
 /* ============================================================
    SCROLL ANIMATION STATES
    ============================================================ */
-.js .anim { opacity: 0; will-change: opacity, transform; }
-.js .anim[data-anim="up"] { transform: translateY(30px); }
-.js .anim[data-anim="scale"] { transform: scale(.955); }
-.js .anim[data-anim="fade"] { transform: none; }
+.js .anim { --reveal-delay: 0s; opacity: 0; will-change: opacity, translate, scale; }
+.js .anim[data-delay="1"] { --reveal-delay: .09s; }
+.js .anim[data-delay="2"] { --reveal-delay: .18s; }
+.js .anim[data-delay="3"] { --reveal-delay: .27s; }
+.js .anim[data-delay="4"] { --reveal-delay: .36s; }
+.js .anim[data-anim="up"] { translate: 0 24px; }
+.js .anim[data-anim="scale"] { scale: .97; }
+.js .anim[data-anim="fade"] { translate: 0 0; }
 .js .anim.in {
-  opacity: 1; transform: none;
-  transition: opacity .7s var(--ease), transform .8s var(--ease);
+  opacity: 1; translate: 0 0; scale: 1;
+  transition:
+    opacity .62s var(--ease) var(--reveal-delay),
+    translate .72s var(--ease) var(--reveal-delay),
+    scale .72s var(--ease) var(--reveal-delay),
+    transform .28s var(--ease),
+    box-shadow .28s var(--ease),
+    background-color .25s var(--ease),
+    color .25s var(--ease),
+    border-color .25s var(--ease);
 }
-.js .anim.in[data-delay="1"] { transition-delay: .09s; }
-.js .anim.in[data-delay="2"] { transition-delay: .18s; }
-.js .anim.in[data-delay="3"] { transition-delay: .27s; }
-.js .anim.in[data-delay="4"] { transition-delay: .36s; }
 
 /* headline line reveal */
 .js .line > span { transform: translateY(105%); }
@@ -1260,7 +1277,8 @@ body,
     animation-iteration-count: 1 !important;
     transition-duration: .001ms !important;
   }
-  .js .anim, .js .line > span { opacity: 1 !important; transform: none !important; }
+  .js .anim { opacity: 1 !important; translate: none !important; scale: none !important; }
+  .js .line > span { opacity: 1 !important; transform: none !important; }
   .marquee-track { animation: none; }
   .orb { animation: none; }
 }
