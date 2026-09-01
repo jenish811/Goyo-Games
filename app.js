@@ -237,8 +237,8 @@
     var nx = (e.clientX / window.innerWidth) * 2 - 1;
     var ny = (e.clientY / window.innerHeight) * 2 - 1;
     parallaxNodes.forEach(function (n) {
-      n.tx = nx * n.depth;
-      n.ty = ny * n.depth * 0.55;
+      n.tx = nx * n.depth * 0.22;
+      n.ty = ny * n.depth * 0.12;
     });
     if (rafId === null) rafId = window.requestAnimationFrame(tick);
   }

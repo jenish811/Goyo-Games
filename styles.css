@@ -161,15 +161,15 @@ dl, dd { margin: 0; }
   width: 420px; height: 420px; right: -170px; top: -120px;
   border-radius: 140px;
   transform: rotate(18deg);
-  animation: drift-a 26s ease-in-out infinite alternate;
+  animation: drift-a 42s ease-in-out infinite alternate;
 }
 .orb-b {
   width: 340px; height: 340px; left: -150px; top: 58%;
   border-radius: 50%;
-  animation: drift-b 22s ease-in-out infinite alternate;
+  animation: drift-b 38s ease-in-out infinite alternate;
 }
-@keyframes drift-a { to { transform: rotate(30deg) translateY(34px); } }
-@keyframes drift-b { to { transform: translateY(-40px); } }
+@keyframes drift-a { to { transform: rotate(24deg) translateY(16px); } }
+@keyframes drift-b { to { transform: translateY(-18px); } }
 
 /* ============================================================
    NEOPOP COMPONENTS
@@ -372,13 +372,13 @@ body.menu-open .site-header::before { opacity: 0; }
   animation: menu-in .38s var(--ease) both;
 }
 @keyframes menu-in {
-  from { opacity: 0; clip-path: circle(0% at 92% 6%); }
-  to { opacity: 1; clip-path: circle(150% at 92% 6%); }
+  from { opacity: 0; transform: translateY(-12px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 .menu-panel.is-closing { animation: menu-out .3s var(--ease) both; }
 @keyframes menu-out {
-  from { opacity: 1; clip-path: circle(150% at 92% 6%); }
-  to { opacity: 0; clip-path: circle(0% at 92% 6%); }
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-12px); }
 }
 .menu-nav { display: grid; }
 .menu-nav a {
@@ -509,10 +509,10 @@ body.menu-open .site-header::before { opacity: 0; }
   font-size: clamp(15px, 1.3vw, 19px);
   padding: 12px 22px;
   box-shadow: var(--sh-2);
-  animation: sticker-bob 4.5s ease-in-out infinite;
+  animation: sticker-bob 7s ease-in-out infinite;
 }
 @keyframes sticker-bob {
-  50% { transform: translate(var(--px, 0), calc(var(--py, 0px) - 8px)) rotate(var(--rot, 0deg)); }
+  50% { transform: translate(var(--px, 0), calc(var(--py, 0px) - 3px)) rotate(var(--rot, 0deg)); }
 }
 
 .scroll-hint {
@@ -521,8 +521,8 @@ body.menu-open .site-header::before { opacity: 0; }
   font-size: 12px; letter-spacing: .2em; text-transform: uppercase;
   color: var(--purple-soft);
 }
-.scroll-hint .ico { width: 22px; height: 22px; transform: rotate(90deg); animation: hint-slide 2s ease-in-out infinite; }
-@keyframes hint-slide { 50% { transform: rotate(90deg) translateX(7px); } }
+.scroll-hint .ico { width: 22px; height: 22px; transform: rotate(90deg); animation: hint-slide 2.8s ease-in-out infinite; }
+@keyframes hint-slide { 50% { transform: rotate(90deg) translateX(4px); } }
 
 /* ============================================================
    MARQUEE
@@ -541,7 +541,7 @@ body.menu-open .site-header::before { opacity: 0; }
   font-family: var(--display);
   font-size: clamp(22px, 3vw, 44px);
   letter-spacing: .01em;
-  animation: marquee 22s linear infinite;
+  animation: marquee 32s linear infinite;
   will-change: transform;
 }
 .marquee-group {
@@ -580,8 +580,8 @@ body.menu-open .site-header::before { opacity: 0; }
 .game-card:nth-child(3n) { --tilt: -.5deg; }
 .game-card { transform: rotate(var(--tilt, 0deg)); }
 .game-card:hover, .game-card:focus-within, .game-card.is-tapped {
-  transform: rotate(0deg) translate(-4px, -8px);
-  box-shadow: var(--sh-3);
+  transform: rotate(0deg) translate(-2px, -4px);
+  box-shadow: var(--sh-2);
 }
 .game-art {
   position: relative;
@@ -789,7 +789,7 @@ body.menu-open .site-header::before { opacity: 0; }
 .stat-card.sc-5 span { color: rgba(255, 241, 230, .6); }
 .stat-card.sc-6 { --tilt: .6deg; }
 .stat-card { transform: rotate(var(--tilt, 0deg)); }
-.stat-card:hover { transform: rotate(0deg) translate(-3px, -5px); box-shadow: var(--sh-2); }
+.stat-card:hover { transform: rotate(0deg) translate(-2px, -3px); box-shadow: var(--sh-2); }
 .stat-card.sc-5:hover { box-shadow: var(--sh-o2); }
 
 /* ============================================================
@@ -910,7 +910,7 @@ body.menu-open .site-header::before { opacity: 0; }
 }
 .article-card.feature { grid-row: auto; }
 .article-card.feature .article-body { flex: 1; }
-.article-card:hover, .article-card:focus-within { transform: translate(-3px, -6px); box-shadow: var(--sh-2); }
+.article-card:hover, .article-card:focus-within { transform: translate(-2px, -4px); box-shadow: var(--sh-2); }
 .article-card > a { display: flex; flex-direction: column; height: 100%; }
 .article-art {
   overflow: hidden;
@@ -1141,19 +1141,19 @@ body,
    SCROLL ANIMATION STATES
    ============================================================ */
 .js .anim { --reveal-delay: 0s; opacity: 0; will-change: opacity, translate, scale; }
-.js .anim[data-delay="1"] { --reveal-delay: .09s; }
-.js .anim[data-delay="2"] { --reveal-delay: .18s; }
-.js .anim[data-delay="3"] { --reveal-delay: .27s; }
-.js .anim[data-delay="4"] { --reveal-delay: .36s; }
-.js .anim[data-anim="up"] { translate: 0 24px; }
-.js .anim[data-anim="scale"] { scale: .97; }
+.js .anim[data-delay="1"] { --reveal-delay: .05s; }
+.js .anim[data-delay="2"] { --reveal-delay: .1s; }
+.js .anim[data-delay="3"] { --reveal-delay: .15s; }
+.js .anim[data-delay="4"] { --reveal-delay: .2s; }
+.js .anim[data-anim="up"] { translate: 0 12px; }
+.js .anim[data-anim="scale"] { scale: .985; }
 .js .anim[data-anim="fade"] { translate: 0 0; }
 .js .anim.in {
   opacity: 1; translate: 0 0; scale: 1;
   transition:
-    opacity .62s var(--ease) var(--reveal-delay),
-    translate .72s var(--ease) var(--reveal-delay),
-    scale .72s var(--ease) var(--reveal-delay),
+    opacity .42s var(--ease) var(--reveal-delay),
+    translate .5s var(--ease) var(--reveal-delay),
+    scale .5s var(--ease) var(--reveal-delay),
     transform .28s var(--ease),
     box-shadow .28s var(--ease),
     background-color .25s var(--ease),
