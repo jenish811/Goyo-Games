@@ -280,7 +280,7 @@
   /* ---------------------------------------------------------
      6b. Idle the looping animations while their section is off-screen
      --------------------------------------------------------- */
-  var loopSections = document.querySelectorAll('.marquee, .hero');
+  var loopSections = document.querySelectorAll('.hero');
   if (loopSections.length && 'IntersectionObserver' in window) {
     var loopIo = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {

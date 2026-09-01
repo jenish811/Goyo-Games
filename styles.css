@@ -541,7 +541,7 @@ body.menu-open .site-header::before { opacity: 0; }
   font-family: var(--display);
   font-size: clamp(22px, 3vw, 44px);
   letter-spacing: .01em;
-  animation: marquee 32s linear infinite;
+  animation: marquee 18s linear infinite;
   will-change: transform;
 }
 .marquee-group {
@@ -552,9 +552,7 @@ body.menu-open .site-header::before { opacity: 0; }
 }
 .marquee-track b { color: var(--orange); font-weight: 400; font-size: .62em; }
 @keyframes marquee { to { transform: translate3d(-50%, 0, 0); } }
-.marquee:hover .marquee-track { animation-play-state: paused; }
 /* Continuous animations idle while their section is off-screen */
-.is-paused .marquee-track,
 .hero.is-paused .sticker-hero { animation-play-state: paused; }
 
 /* ============================================================
