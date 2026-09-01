@@ -34,6 +34,9 @@ http.createServer((request, response) => {
       return;
     }
     response.setHeader('Content-Type', mimeTypes[path.extname(filePath)] || 'application/octet-stream');
+    // Without this the browser heuristically caches HTML/CSS/JS and quietly
+    // serves a stale build while you are editing. Assets are content-stable.
+    response.setHeader('Cache-Control', 'no-store');
     response.end(data);
   });
 }).listen(port, '127.0.0.1', () => {
