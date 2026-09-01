@@ -4,6 +4,18 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#FFF1E6">
+<meta name="color-scheme" content="light dark">
+<script>
+  (function () {
+    try {
+      var savedTheme = localStorage.getItem('goyo-theme');
+      var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.dataset.theme = savedTheme || (systemDark ? 'dark' : 'light');
+    } catch (e) {
+      document.documentElement.dataset.theme = 'light';
+    }
+  })();
+</script>
 <title>GOYO Games — Simple to enter. Fun to master.</title>
 <meta name="description" content="GOYO Games is a game studio building bright, playful worlds. Short sessions, long obsessions. Play your way.">
 <meta property="og:title" content="GOYO Games — Simple to enter. Fun to master.">
@@ -33,6 +45,8 @@
   <symbol id="i-in" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 10.5V17M8 7.4v.1M12.2 17v-3.6a2.4 2.4 0 0 1 4.8 0V17"/></symbol>
   <symbol id="i-yt" viewBox="0 0 24 24"><rect x="2.5" y="5.5" width="19" height="13" rx="4.5"/><path d="m10.5 9.5 4.5 2.5-4.5 2.5v-5Z" stroke-linejoin="round"/></symbol>
   <symbol id="i-dc" viewBox="0 0 24 24"><path d="M8.5 5.5 6 6.2C4 9 3.2 12.4 3.5 16.3c1.8 1.3 3.6 2 5.3 2.2l1-1.7m4.7-11.3L17 6.2c2 2.8 2.8 6.2 2.5 10.1-1.8 1.3-3.6 2-5.3 2.2l-1-1.7" stroke-linejoin="round"/><path d="M7 14.5c3.4 1.6 6.6 1.6 10 0M9.6 11.6v.1m4.8-.1v.1"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.3 15.3A8.5 8.5 0 0 1 8.7 3.7a8.5 8.5 0 1 0 11.6 11.6Z"/></symbol>
 </svg>
 
 <div class="grain" aria-hidden="true"></div>
@@ -59,6 +73,11 @@
     </nav>
 
     <div class="header-cta">
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark mode" aria-pressed="false" title="Switch to dark mode">
+        <svg class="ico theme-sun" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ico theme-moon" aria-hidden="true"><use href="#i-moon"/></svg>
+        <span class="sr theme-toggle-text">Switch to dark mode</span>
+      </button>
       <a class="btn btn-orange btn-sm" href="#games">Play now <svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a>
       <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
         <span></span><span></span>

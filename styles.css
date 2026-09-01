@@ -66,6 +66,14 @@
 
   --ease: cubic-bezier(.22, .78, .28, 1);
   --ease-pop: cubic-bezier(.2, .9, .25, 1.15);
+
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --purple-soft: rgba(255, 241, 230, .68);
+  --purple-line: rgba(255, 241, 230, .2);
+  color-scheme: dark;
 }
 
 /* ---------- RESET ---------- */
@@ -308,6 +316,26 @@ body.menu-open .site-header::before { opacity: 0; }
 }
 .nav-desk a:hover { background: var(--purple); color: var(--cream); }
 .header-cta { display: flex; align-items: center; gap: 12px; }
+
+.theme-toggle {
+  width: 44px; height: 44px;
+  display: grid; place-items: center;
+  background: var(--cream-hi);
+  border: 2px solid var(--purple);
+  border-radius: 50%;
+  box-shadow: 3px 3px 0 var(--purple);
+  transition: transform .18s var(--ease), box-shadow .18s var(--ease), background .25s var(--ease), color .25s var(--ease);
+}
+.theme-toggle:hover { transform: translate(-2px, -2px); box-shadow: 5px 5px 0 var(--purple); }
+.theme-toggle:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--purple); }
+.theme-toggle .ico {
+  grid-area: 1 / 1;
+  width: 20px; height: 20px;
+  transition: transform .3s var(--ease-pop), opacity .2s var(--ease);
+}
+.theme-moon { opacity: 0; transform: rotate(-45deg) scale(.55); }
+:root[data-theme="dark"] .theme-sun { opacity: 0; transform: rotate(45deg) scale(.55); }
+:root[data-theme="dark"] .theme-moon { opacity: 1; transform: rotate(0) scale(1); }
 
 /* burger */
 .burger {
@@ -996,6 +1024,109 @@ body.menu-open .site-header::before { opacity: 0; }
   color: rgba(255, 241, 230, .55);
 }
 .footer-tag { font-family: var(--display); font-size: 18px; color: var(--orange); }
+
+/* ============================================================
+   DARK THEME
+   Keeps the three brand colours intact while shifting the page
+   canvas and raised surfaces into deeper purple values.
+   ============================================================ */
+:root[data-theme="dark"] body {
+  background: #210B21;
+  color: var(--cream);
+}
+:root[data-theme="dark"] .site-header::before {
+  background: rgba(33, 11, 33, .94);
+}
+:root[data-theme="dark"] .logo-primary { display: none; }
+:root[data-theme="dark"] .logo-reverse { display: block; }
+:root[data-theme="dark"] .nav-desk ul {
+  background: rgba(255, 241, 230, .06);
+}
+:root[data-theme="dark"] .nav-desk a:hover {
+  background: var(--orange);
+  color: var(--purple);
+}
+:root[data-theme="dark"] .theme-toggle {
+  background: #351235;
+  color: var(--cream);
+  border-color: rgba(255, 241, 230, .72);
+  box-shadow: 3px 3px 0 var(--orange);
+}
+:root[data-theme="dark"] .theme-toggle:hover { box-shadow: 5px 5px 0 var(--orange); }
+:root[data-theme="dark"] .theme-toggle:active { box-shadow: 1px 1px 0 var(--orange); }
+:root[data-theme="dark"] .btn-ghost {
+  background: #351235;
+  color: var(--cream);
+  border-color: var(--cream);
+  box-shadow: 7px 7px 0 var(--orange);
+}
+:root[data-theme="dark"] .btn-ghost:hover {
+  background: #411641;
+  box-shadow: 10px 10px 0 var(--orange);
+}
+:root[data-theme="dark"] .burger {
+  background: #351235;
+  color: var(--cream);
+  border-color: var(--cream);
+  box-shadow: 4px 4px 0 var(--orange);
+}
+:root[data-theme="dark"] .burger span { background: var(--cream); }
+:root[data-theme="dark"] .orb { border-color: var(--orange); opacity: .2; }
+:root[data-theme="dark"] .marquee,
+:root[data-theme="dark"] .statement,
+:root[data-theme="dark"] .careers,
+:root[data-theme="dark"] .site-footer { background: #351235; }
+:root[data-theme="dark"] .game-card,
+:root[data-theme="dark"] .article-card,
+:root[data-theme="dark"] .stat-card:not(.sc-2):not(.sc-5),
+:root[data-theme="dark"] .feat-specs > div,
+:root[data-theme="dark"] .tag,
+:root[data-theme="dark"] .about-badge {
+  background: #351235;
+  color: var(--cream);
+  border-color: rgba(255, 241, 230, .72);
+  box-shadow: 5px 5px 0 var(--orange);
+}
+:root[data-theme="dark"] .game-card:hover,
+:root[data-theme="dark"] .game-card:focus-within,
+:root[data-theme="dark"] .game-card.is-tapped,
+:root[data-theme="dark"] .article-card:hover,
+:root[data-theme="dark"] .article-card:focus-within,
+:root[data-theme="dark"] .stat-card:not(.sc-2):not(.sc-5):hover {
+  box-shadow: 10px 10px 0 var(--orange);
+}
+:root[data-theme="dark"] .game-art,
+:root[data-theme="dark"] .article-art,
+:root[data-theme="dark"] .feat-art,
+:root[data-theme="dark"] .about-art,
+:root[data-theme="dark"] .feat-specs > div {
+  border-color: rgba(255, 241, 230, .72);
+}
+:root[data-theme="dark"] .article-card.feature .article-art { border-color: rgba(255, 241, 230, .72); }
+:root[data-theme="dark"] .plats li { border-color: rgba(255, 241, 230, .28); }
+:root[data-theme="dark"] .game-cta,
+:root[data-theme="dark"] .article-go,
+:root[data-theme="dark"] .about-lead { color: var(--cream) !important; }
+:root[data-theme="dark"] .tag-orange,
+:root[data-theme="dark"] .article-meta .cat { color: var(--purple); }
+
+body,
+.site-header::before,
+.nav-desk ul,
+.theme-toggle,
+.game-card,
+.article-card,
+.stat-card,
+.feat-specs > div,
+.tag,
+.about-badge,
+.statement,
+.careers,
+.site-footer {
+  transition-property: background-color, color, border-color, box-shadow, transform, opacity;
+  transition-duration: .25s;
+  transition-timing-function: var(--ease);
+}
 
 /* ============================================================
    SCROLL ANIMATION STATES

@@ -10,7 +10,45 @@
 
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   var finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+  var darkPreference = window.matchMedia('(prefers-color-scheme: dark)');
   var isReduced = function () { return reduceMotion.matches; };
+
+  /* ---------------------------------------------------------
+     Theme — system-aware, user-controlled and persisted
+     --------------------------------------------------------- */
+  var themeToggle = document.getElementById('themeToggle');
+  var themeMeta = document.querySelector('meta[name="theme-color"]');
+
+  function savedTheme() {
+    try { return window.localStorage.getItem('goyo-theme'); }
+    catch (e) { return null; }
+  }
+
+  function applyTheme(theme, persist) {
+    var nextTheme = theme === 'dark' ? 'dark' : 'light';
+    var nextLabel = nextTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
+    root.dataset.theme = nextTheme;
+    if (themeMeta) themeMeta.setAttribute('content', nextTheme === 'dark' ? '#210B21' : '#FFF1E6');
+    if (themeToggle) {
+      themeToggle.setAttribute('aria-pressed', String(nextTheme === 'dark'));
+      themeToggle.setAttribute('aria-label', nextLabel);
+      themeToggle.setAttribute('title', nextLabel);
+      var label = themeToggle.querySelector('.theme-toggle-text');
+      if (label) label.textContent = nextLabel;
+    }
+    if (persist) {
+      try { window.localStorage.setItem('goyo-theme', nextTheme); }
+      catch (e) { /* Theme still works when storage is unavailable. */ }
+    }
+  }
+
+  applyTheme(root.dataset.theme || (darkPreference.matches ? 'dark' : 'light'), false);
+
+  if (themeToggle) {
+    themeToggle.addEventListener('click', function () {
+      applyTheme(root.dataset.theme === 'dark' ? 'light' : 'dark', true);
+    });
+  }
 
   /* ---------------------------------------------------------
      1. Header — shrink + solidify on scroll
@@ -276,9 +314,15 @@
   if (typeof reduceMotion.addEventListener === 'function') {
     reduceMotion.addEventListener('change', onPrefChange);
     finePointer.addEventListener('change', syncParallax);
+    darkPreference.addEventListener('change', function (event) {
+      if (!savedTheme()) applyTheme(event.matches ? 'dark' : 'light', false);
+    });
   } else if (typeof reduceMotion.addListener === 'function') {
     reduceMotion.addListener(onPrefChange);
     finePointer.addListener(syncParallax);
+    darkPreference.addListener(function (event) {
+      if (!savedTheme()) applyTheme(event.matches ? 'dark' : 'light', false);
+    });
   }
 
   /* ---------------------------------------------------------
