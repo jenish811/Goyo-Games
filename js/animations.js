@@ -2,6 +2,7 @@ export function initAnimations() {
   if (typeof gsap === 'undefined' || typeof Lenis === 'undefined' || typeof SplitType === 'undefined') {
     console.error('Animation libraries missing');
     return;
+  }
   // 1. Lenis Smooth Scroll
   const lenis = new Lenis({
     duration: 1.4,
