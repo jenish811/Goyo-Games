@@ -215,38 +215,14 @@ body.no-scroll{overflow:hidden}a{color:inherit;text-decoration:none}img,svg{disp
   color: #fff !important;
 }
 
-/* Superplay-style Layered Scroll (Sticky Sections + pinned zoom) */
-.scroll-film { height: auto !important; position: relative; z-index: 10; }
-.film-stage { position: relative !important; height: auto !important; overflow: visible !important; background: transparent !important; }
-.film-scene { position: relative !important; inset: auto !important; height: 200vh !important; opacity: 1 !important; pointer-events: auto !important; overflow: visible; border-top: 1px solid rgba(255,255,255,0.05); }
-.scene-inner { position: sticky; top: 0; height: 100vh; width: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-.film-paper, .film-progress, .film-corner, .scene-number { display: none !important; }
-
-/* Reset Canvas Frames for vertical flow */
-.canvas-frame { position: relative !important; transform: none !important; left: auto !important; top: auto !important; width: 90vw !important; max-width: 1000px !important; height: 65vh !important; margin: 0 auto; }
-.scene-prologue { transform: none !important; }
-.scene-finale { transform: none !important; min-height: 100vh !important; }
-.finale-disc { transform: scale(1) translate(-50%, -50%) !important; width: 200vmax !important; }
-
-/* Reset absolute positions so they stick to the section */
-.story-note { transform: none !important; top: 15% !important; }
-.crop-card { transform: none !important; }
-
-/* Pinned zoom — the headline grows while its section stays pinned,
-   matching the Superplay reference (text scales up, then the next
-   panel slides over it). */
-.scene-zoom { transform: scale(var(--zoom-scale, 1)); transform-origin: center; will-change: transform; }
-.story-copy.scene-zoom { transform: translateY(-50%) scale(var(--zoom-scale, 1)) !important; transform-origin: left center; }
-
-/* Section Backgrounds and Z-index for Layered Sticky Scroll */
-.scene-prologue { background: var(--ink); z-index: 11; }
-.scene-tower { background: var(--ink-soft); z-index: 12; box-shadow: 0 -30px 60px rgba(0,0,0,0.6); }
-.scene-drift { background: #140d05; z-index: 13; box-shadow: 0 -30px 60px rgba(0,0,0,0.6); color: #ffffff !important; }
-.scene-drift .story-copy { color: #ffffff !important; text-shadow: 0 4px 12px rgba(0,0,0,0.5); }
-.scene-bloom { background: #1a101a; z-index: 14; box-shadow: 0 -30px 60px rgba(0,0,0,0.6); }
-.scene-finale { background: var(--ink); z-index: 15; box-shadow: 0 -30px 60px rgba(0,0,0,0.6); }
-
-
+/* Single pinned stage — one sticky .film-stage holds every scene as
+   an absolutely-positioned layer; js/cinematic-scroll.js cross-fades
+   and transforms them as you scroll through .scroll-film. This is
+   the same technique Superplay's homepage uses (one sticky container
+   with stacked absolute layers), not a sticky panel per section. */
+.scene-tower, .scene-drift, .scene-bloom { color: var(--ink); }
+.scene-drift { color: #ffffff; }
+.scene-drift .story-copy { color: #ffffff; text-shadow: 0 4px 12px rgba(0,0,0,0.5); }
 
 @media(max-width:900px){
   :root{--pad:20px}.cursor{display:none}.has-cursor,.has-cursor a,.has-cursor button{cursor:auto}.film-nav{display:none}.header-inner{grid-template-columns:1fr auto}.header-index span{display:none}.site-header{padding-top:18px}.goyo-word{font-size:36px}.goyo-eye{width:25.92px;height:25.92px}.goyo-sub{font-size:10px;letter-spacing:3.9px}

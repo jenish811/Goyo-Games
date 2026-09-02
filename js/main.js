@@ -1,9 +1,8 @@
 import { initCursor } from './custom-cursor.js';
 import { initLogoEyes } from './logo-eyes.js';
 import { initHeader, initAnchors } from './nav.js';
-// import { initCinematicScroll } from './cinematic-scroll.js';
+import { initCinematicScroll } from './cinematic-scroll.js';
 import { initAnimations } from './animations.js';
-import { initSceneZoom } from './scene-zoom.js';
 
 function initParticles() {
   if (typeof tsParticles === 'undefined') return;
@@ -47,9 +46,8 @@ safely('header', initHeader);
 safely('anchors', initAnchors);
 safely('cursor', initCursor);
 safely('logo eyes', initLogoEyes);
-// safely('cinematic scroll', initCinematicScroll);
+safely('cinematic scroll', initCinematicScroll);
 safely('splash', initSplash);
-safely('scene zoom', initSceneZoom);
 safely('premium animations', initAnimations);
 safely('particles', initParticles);
 
