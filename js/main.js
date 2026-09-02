@@ -8,9 +8,20 @@ import { setSoundEnabled, isSoundEnabled, isAudioRunning, playClick, playChime, 
 
 // history.scrollRestoration is set to 'manual' in an inline <head>
 // script (must run before the browser's own restoration does, which
-// this deferred module is too late for) -- this is just the belt-
-// and-suspenders scroll-to-top now that restoration won't fight it.
-window.scrollTo(0, 0);
+// this deferred module is too late for). On top of that, force an
+// INSTANT jump to the top -- html{scroll-behavior:smooth} in the
+// stylesheet means a plain scrollTo(0,0) is an *animated* scroll, and
+// if anything else (Lenis initializing, a stray scroll event) touches
+// scroll position while that animation is still running, it can be
+// cancelled partway and visually look like it never moved. Chrome and
+// Safari don't resolve that race identically, which fits a report of
+// this only misbehaving in one of the two. Re-asserted on 'pageshow'
+// too, which also covers the back/forward-cache restore case.
+function forceScrollTop() {
+  window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+}
+forceScrollTop();
+window.addEventListener('pageshow', forceScrollTop);
 
 function initParticles() {
   if (typeof tsParticles === 'undefined') return;
