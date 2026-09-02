@@ -60,14 +60,29 @@ export function initCinematicScroll() {
 
   function render() {
     frame = null;
+
+    // --- Read phase: every layout-forcing measurement, all up front. ---
+    // Interleaving reads (getBoundingClientRect/offsetHeight) with writes
+    // (style.setProperty) forces the browser to flush pending style
+    // changes and recompute layout synchronously on *each* read -- this
+    // function used to do that three times per scroll frame. Batching
+    // every read before any write removes that "layout thrashing"
+    // entirely; it's the same fix regardless of browser, just some
+    // engines had punished the old pattern harder than others.
     const viewport = window.innerHeight;
     const filmRect = film.getBoundingClientRect();
-    const filmDistance = Math.max(film.offsetHeight - viewport, 1);
+    const filmOffsetHeight = film.offsetHeight;
+    const openingOffsetHeight = opening ? opening.offsetHeight : 0;
+    const studioRect = studio ? studio.getBoundingClientRect() : null;
+    const studioOffsetHeight = studio ? studio.offsetHeight : 0;
+
+    // --- Compute phase: pure math, no DOM access. ---
+    const filmDistance = Math.max(filmOffsetHeight - viewport, 1);
     const progress = clamp(-filmRect.top / filmDistance, 0, 1);
     const filmVisible = filmRect.top <= viewport && filmRect.bottom >= 0;
-    const studioRect = studio?.getBoundingClientRect();
     const studioVisible = Boolean(studioRect && studioRect.top < viewport && studioRect.bottom > 0);
 
+    // --- Write phase: every DOM mutation, all after the reads above. ---
     stage.style.setProperty('--film-progress', progress.toFixed(4));
     stage.style.setProperty('--paper-radius', (smoothstep(0.075, 0.185, progress) * 155).toFixed(2) + '%');
     if (progress < 0.18) stage.style.backgroundColor = '#090907';
@@ -76,7 +91,7 @@ export function initCinematicScroll() {
     root.classList.toggle('film-light', (filmVisible && progress > 0.18 && progress < 0.825) || studioVisible);
 
     if (opening) {
-      const openingDistance = Math.max(opening.offsetHeight - viewport, 1);
+      const openingDistance = Math.max(openingOffsetHeight - viewport, 1);
       const openingProgress = clamp(window.scrollY / openingDistance, 0, 1);
       opening.style.setProperty('--opening-y', (-openingProgress * 130).toFixed(2) + 'px');
       opening.style.setProperty('--opening-fade', (1 - openingProgress).toFixed(4));
@@ -124,9 +139,8 @@ export function initCinematicScroll() {
     }
 
     if (studio) {
-      const rect = studio.getBoundingClientRect();
-      const distance = Math.max(studio.offsetHeight - viewport, 1);
-      const local = clamp(-rect.top / distance, 0, 1);
+      const distance = Math.max(studioOffsetHeight - viewport, 1);
+      const local = clamp(-studioRect.top / distance, 0, 1);
       studio.style.setProperty('--studio-line-x', mix(-180, 80, local).toFixed(2) + 'px');
       studio.style.setProperty('--studio-line-x2', mix(180, -80, local).toFixed(2) + 'px');
       studio.style.setProperty('--studio-r', (local * 230).toFixed(2) + 'deg');

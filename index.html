@@ -1,6 +1,14 @@
 <!doctype html>
 <html lang="en" data-theme="dark">
 <head>
+  <script>
+    // Must run synchronously, before the browser's own scroll-restoration
+    // kicks in on load/reload -- doing this later (e.g. in the deferred
+    // module script) loses the race and the browser jumps back to the
+    // saved scroll position anyway. Every visual here (splash screen,
+    // scene opacity, header state) assumes a fresh load starts at 0.
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  </script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#090907">

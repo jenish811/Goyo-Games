@@ -6,11 +6,10 @@ import { initAnimations } from './animations.js';
 import { initMagnetic } from './magnetic.js';
 import { setSoundEnabled, isSoundEnabled, isAudioRunning, playClick, playChime, playScroll, playElectric, playTabHover } from './sound.js';
 
-// The browser tries to restore the previous scroll position on a
-// reload by default. Every visual here (splash screen, scene opacity,
-// header state) assumes it's starting from the top, so a refresh
-// landing back at 50% looks broken -- always start fresh instead.
-if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+// history.scrollRestoration is set to 'manual' in an inline <head>
+// script (must run before the browser's own restoration does, which
+// this deferred module is too late for) -- this is just the belt-
+// and-suspenders scroll-to-top now that restoration won't fight it.
 window.scrollTo(0, 0);
 
 function initParticles() {
