@@ -74,9 +74,10 @@ export function initCinematicScroll() {
     root.classList.toggle('film-light', (filmVisible && progress > 0.18 && progress < 0.825) || studioVisible);
 
     if (opening) {
-      const openingProgress = clamp(window.scrollY / Math.max(opening.offsetHeight, 1), 0, 1);
+      const openingDistance = Math.max(opening.offsetHeight - viewport, 1);
+      const openingProgress = clamp(window.scrollY / openingDistance, 0, 1);
       opening.style.setProperty('--opening-y', (-openingProgress * 130).toFixed(2) + 'px');
-      opening.style.setProperty('--opening-fade', (1 - openingProgress * 0.9).toFixed(4));
+      opening.style.setProperty('--opening-fade', (1 - openingProgress).toFixed(4));
       opening.style.setProperty('--opening-scale', (1 - openingProgress * 0.08).toFixed(4));
     }
 
