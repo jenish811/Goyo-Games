@@ -2,7 +2,7 @@
 @font-face{font-family:GoyoText;src:url('assets/fonts/Quicksand-Medium.ttf') format('truetype');font-display:swap}
 :root{--ink:#090907;--ink-soft:#15140f;--paper:#fff1e6;--orange:#ff7b00;--purple:#4d194d;--acid:#d9ff43;--line:rgba(255,241,230,.22);--display:GoyoDisplay,Impact,sans-serif;--text:GoyoText,'Trebuchet MS',sans-serif;--pad:clamp(20px,4vw,68px);--logo-pupil:var(--ink)}
 *,*::before,*::after{box-sizing:border-box}
-html{background:var(--ink);scroll-behavior:smooth;scrollbar-color:var(--orange) var(--ink)}
+html{background:var(--ink);scroll-behavior:smooth;scrollbar-color:var(--orange) var(--ink);scroll-snap-type:y mandatory}
 body{margin:0;overflow-x:clip;background:var(--ink);color:var(--paper);font-family:var(--text);line-height:1.45}
 body.no-scroll{overflow:hidden}a{color:inherit;text-decoration:none}img,svg{display:block;max-width:100%}svg{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.sprite{position:absolute;overflow:hidden}.skip-link{position:fixed;z-index:1000;left:12px;top:12px;padding:10px 16px;background:var(--paper);color:var(--ink);transform:translateY(-150%)}.skip-link:focus{transform:none}
 .grain{position:fixed;z-index:300;inset:0;pointer-events:none;opacity:.075;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.92' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.9'/%3E%3C/svg%3E")}
@@ -237,6 +237,12 @@ body.no-scroll{overflow:hidden}a{color:inherit;text-decoration:none}img,svg{disp
 .scene-drift { background: #140d05; z-index: 13; box-shadow: 0 -30px 60px rgba(0,0,0,0.6); }
 .scene-bloom { background: #1a101a; z-index: 14; box-shadow: 0 -30px 60px rgba(0,0,0,0.6); }
 .scene-finale { background: var(--ink); z-index: 15; box-shadow: 0 -30px 60px rgba(0,0,0,0.6); }
+
+/* Scroll Snap Assignments */
+.opening, .film-scene, .studio, .site-footer {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
 
 @media(max-width:900px){
   :root{--pad:20px}.cursor{display:none}.has-cursor,.has-cursor a,.has-cursor button{cursor:auto}.film-nav{display:none}.header-inner{grid-template-columns:1fr auto}.header-index span{display:none}.site-header{padding-top:18px}.goyo-word{font-size:36px}.goyo-eye{width:25.92px;height:25.92px}.goyo-sub{font-size:10px;letter-spacing:3.9px}
