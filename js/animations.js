@@ -78,13 +78,7 @@ export function initAnimations() {
   // 4. Bouncy Vertical Scene Assemblies (Superplay style)
   const scenes = document.querySelectorAll('.film-scene');
   scenes.forEach(scene => {
-    // Pinning the scene for "Curtain Reveal" effect
-    ScrollTrigger.create({
-      trigger: scene,
-      start: 'top top',
-      pin: true,
-      pinSpacing: false
-    });
+
 
     const canvas = scene.querySelector('.canvas-frame');
     if (canvas) {
