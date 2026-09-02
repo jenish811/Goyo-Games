@@ -130,4 +130,29 @@ export function initAnimations() {
       });
     }
   });
+
+  // 5. Footer entrance: heading lines rise in, the mail circle pops in
+  const footerLines = document.querySelectorAll('.footer-call h2 span, .footer-call h2 em');
+  if (footerLines.length) {
+    gsap.from(footerLines, {
+      y: 70,
+      opacity: 0,
+      duration: 1.1,
+      stagger: 0.15,
+      ease: 'power4.out',
+      scrollTrigger: { trigger: '.footer-call', start: 'top 85%' }
+    });
+  }
+
+  const footerCircle = document.querySelector('.footer-call > a');
+  if (footerCircle) {
+    gsap.from(footerCircle, {
+      scale: 0,
+      rotationZ: -35,
+      opacity: 0,
+      duration: 1.4,
+      ease: 'elastic.out(1, 0.6)',
+      scrollTrigger: { trigger: footerCircle, start: 'top 85%' }
+    });
+  }
 }
