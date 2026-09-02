@@ -1,0 +1,9 @@
+{
+  "name": "goyo-games-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "GOYO Games studio website — NeoPop editorial, zero dependencies",
+  "scripts": {
+    "start": "node scripts/dev-server.js"
+  }
+}

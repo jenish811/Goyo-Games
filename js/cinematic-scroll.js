@@ -1,0 +1,144 @@
+import { clamp, env } from './env.js';
+
+const mix = (from, to, amount) => from + (to - from) * amount;
+
+function smoothstep(from, to, value) {
+  const progress = clamp((value - from) / (to - from), 0, 1);
+  return progress * progress * (3 - 2 * progress);
+}
+
+function sceneOpacity(progress, start, end) {
+  const enter = smoothstep(start, start + 0.045, progress);
+  const leave = 1 - smoothstep(end - 0.05, end, progress);
+  return enter * leave;
+}
+
+export function initCinematicScroll() {
+  const root = document.documentElement;
+  const film = document.querySelector('[data-film]');
+  const stage = film?.querySelector('.film-stage');
+  const opening = document.querySelector('.opening');
+  const studio = document.querySelector('.studio');
+  const footer = document.querySelector('.site-footer');
+  const count = document.getElementById('filmCount');
+
+  if (!film || !stage) return;
+  if (env.reducedMotion) {
+    root.classList.add('reduced-film');
+    return;
+  }
+
+  const scenes = {
+    prologue: film.querySelector('[data-scene="prologue"]'),
+    tower: film.querySelector('[data-scene="tower"]'),
+    drift: film.querySelector('[data-scene="drift"]'),
+    bloom: film.querySelector('[data-scene="bloom"]'),
+    finale: film.querySelector('[data-scene="finale"]')
+  };
+  const towerPieces = Array.from(scenes.tower?.querySelectorAll('.tower-build i') || []);
+  let frame = null;
+
+  function setScene(scene, progress, start, end) {
+    if (!scene) return 0;
+    const local = clamp((progress - start) / (end - start), 0, 1);
+    const opacity = sceneOpacity(progress, start, end);
+    const eased = smoothstep(0, 1, local);
+
+    scene.style.setProperty('--scene-opacity', opacity.toFixed(4));
+    scene.style.setProperty('--frame-y', mix(145, -45, eased).toFixed(2) + 'px');
+    scene.style.setProperty('--frame-scale', mix(0.72, 1.04, eased).toFixed(4));
+    scene.style.setProperty('--copy-y', mix(180, -45, eased).toFixed(2) + 'px');
+    scene.style.setProperty('--note-y', mix(-130, 80, eased).toFixed(2) + 'px');
+    scene.style.setProperty('--crop-a-x', mix(-240, 115, eased).toFixed(2) + 'px');
+    scene.style.setProperty('--crop-b-x', mix(240, -105, eased).toFixed(2) + 'px');
+    scene.style.setProperty('--disc-scale', mix(0.22, 1.12, eased).toFixed(4));
+    scene.classList.toggle('is-active', opacity > 0.35);
+    return local;
+  }
+
+  function render() {
+    frame = null;
+    const viewport = window.innerHeight;
+    const filmRect = film.getBoundingClientRect();
+    const filmDistance = Math.max(film.offsetHeight - viewport, 1);
+    const progress = clamp(-filmRect.top / filmDistance, 0, 1);
+    const filmVisible = filmRect.top <= viewport && filmRect.bottom >= 0;
+    const studioRect = studio?.getBoundingClientRect();
+    const studioVisible = Boolean(studioRect && studioRect.top < viewport && studioRect.bottom > 0);
+
+    stage.style.setProperty('--film-progress', progress.toFixed(4));
+    stage.style.setProperty('--paper-radius', (smoothstep(0.075, 0.185, progress) * 155).toFixed(2) + '%');
+    if (progress < 0.18) stage.style.backgroundColor = '#090907';
+    else if (progress < 0.825) stage.style.backgroundColor = '#fff1e6';
+    else stage.style.backgroundColor = '#4d194d';
+    root.classList.toggle('film-light', (filmVisible && progress > 0.18 && progress < 0.825) || studioVisible);
+
+    if (opening) {
+      const openingProgress = clamp(window.scrollY / Math.max(opening.offsetHeight, 1), 0, 1);
+      opening.style.setProperty('--opening-y', (-openingProgress * 130).toFixed(2) + 'px');
+      opening.style.setProperty('--opening-fade', (1 - openingProgress * 0.9).toFixed(4));
+      opening.style.setProperty('--opening-scale', (1 - openingProgress * 0.08).toFixed(4));
+    }
+
+    if (scenes.prologue) {
+      const opacity = 1 - smoothstep(0.13, 0.19, progress);
+      scenes.prologue.style.setProperty('--scene-opacity', opacity.toFixed(4));
+      scenes.prologue.style.setProperty('--scene-y', mix(80, -100, smoothstep(0, 0.19, progress)).toFixed(2) + 'px');
+      scenes.prologue.style.setProperty('--scene-scale', mix(0.86, 1.12, smoothstep(0, 0.19, progress)).toFixed(4));
+      scenes.prologue.style.setProperty('--scene-rotate', (progress * 160).toFixed(2) + 'deg');
+    }
+
+    const towerProgress = setScene(scenes.tower, progress, 0.135, 0.415);
+    towerPieces.forEach((piece, index) => {
+      const built = smoothstep(0.08 + index * 0.085, 0.38 + index * 0.085, towerProgress);
+      piece.style.setProperty('--piece-y', ((1 - built) * 230).toFixed(2) + 'px');
+      piece.style.setProperty('--piece-r', ((1 - built) * (index % 2 ? 12 : -12)).toFixed(2) + 'deg');
+    });
+
+    const driftProgress = setScene(scenes.drift, progress, 0.365, 0.665);
+    scenes.drift?.style.setProperty('--car-x', mix(-330, 250, smoothstep(0.05, 0.9, driftProgress)).toFixed(2) + 'px');
+    scenes.drift?.style.setProperty('--car-r', mix(-10, 4, driftProgress).toFixed(2) + 'deg');
+
+    const bloomProgress = setScene(scenes.bloom, progress, 0.615, 0.885);
+    scenes.bloom?.style.setProperty('--flower-r', (bloomProgress * 210).toFixed(2) + 'deg');
+
+    if (scenes.finale) {
+      const opacity = smoothstep(0.825, 0.9, progress);
+      scenes.finale.style.setProperty('--scene-opacity', opacity.toFixed(4));
+      scenes.finale.style.setProperty('--finale-scale', smoothstep(0.82, 0.97, progress).toFixed(4));
+      scenes.finale.classList.toggle('is-active', opacity > 0.5);
+    }
+
+    if (count) {
+      if (progress < 0.35) count.textContent = '01';
+      else if (progress < 0.61) count.textContent = '02';
+      else if (progress < 0.84) count.textContent = '03';
+      else count.textContent = '04';
+    }
+
+    if (studio) {
+      const rect = studio.getBoundingClientRect();
+      const distance = Math.max(studio.offsetHeight - viewport, 1);
+      const local = clamp(-rect.top / distance, 0, 1);
+      studio.style.setProperty('--studio-line-x', mix(-180, 80, local).toFixed(2) + 'px');
+      studio.style.setProperty('--studio-line-x2', mix(180, -80, local).toFixed(2) + 'px');
+      studio.style.setProperty('--studio-r', (local * 230).toFixed(2) + 'deg');
+      studio.style.setProperty('--studio-scale', mix(0.62, 1.08, smoothstep(0, 1, local)).toFixed(4));
+    }
+
+    if (footer) {
+      const rect = footer.getBoundingClientRect();
+      const local = clamp((viewport - rect.top) / (viewport + rect.height), 0, 1);
+      footer.style.setProperty('--footer-x', mix(-110, 40, local).toFixed(2) + 'px');
+      footer.style.setProperty('--footer-x2', mix(110, -40, local).toFixed(2) + 'px');
+    }
+  }
+
+  function update() {
+    if (frame === null) frame = requestAnimationFrame(render);
+  }
+
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update, { passive: true });
+  update();
+}

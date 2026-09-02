@@ -44,8 +44,6 @@ export function initCursor() {
     cursor.style.setProperty('--cy', `${y.toFixed(1)}px`);
     ring.style.setProperty('--rx', `${rx.toFixed(1)}px`);
     ring.style.setProperty('--ry', `${ry.toFixed(1)}px`);
-    cursor.style.setProperty('--rx', `${rx.toFixed(1)}px`);
-    cursor.style.setProperty('--ry', `${ry.toFixed(1)}px`);
     return true;
   }
 

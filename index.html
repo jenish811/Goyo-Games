@@ -1,716 +1,146 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#FFF1E6">
-<meta name="color-scheme" content="light dark">
-<script>
-  (function () {
-    try {
-      var savedTheme = localStorage.getItem('goyo-theme');
-      var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      document.documentElement.dataset.theme = savedTheme || (systemDark ? 'dark' : 'light');
-    } catch (e) {
-      document.documentElement.dataset.theme = 'light';
-    }
-    /* Armed before first paint so the intro curtain only ever runs on a real
-       first load, and never flashes for repeat visits or reduced motion. */
-    try {
-      var seen = sessionStorage.getItem('goyo-intro') === 'seen';
-      var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (!seen && !still) document.documentElement.classList.add('intro-armed');
-    } catch (e) { /* no storage, no intro — the page just renders */ }
-  })();
-</script>
-<title>GOYO Games — Simple to enter. Fun to master.</title>
-<meta name="description" content="GOYO Games is a game studio building bright, playful worlds. Short sessions, long obsessions. Play your way.">
-<meta property="og:title" content="GOYO Games — Simple to enter. Fun to master.">
-<meta property="og:description" content="A game studio building bright, playful worlds. Play your way.">
-<meta property="og:type" content="website">
-<meta property="og:image" content="assets/brand/logo_purple.png">
-<link rel="icon" href="assets/brand/logo_purple-400.png" type="image/png">
-<link rel="apple-touch-icon" href="assets/brand/logo_purple-400.png">
-<link rel="preload" href="assets/fonts/LilitaOne-Regular.ttf" as="font" type="font/ttf" crossorigin>
-<link rel="preload" href="assets/fonts/Quicksand-Medium.ttf" as="font" type="font/ttf" crossorigin>
-<link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#090907">
+  <meta name="color-scheme" content="dark">
+  <title>GOYO Games - Play your way.</title>
+  <meta name="description" content="GOYO Games creates playful worlds that are simple to enter and fun to master.">
+  <link rel="icon" href="assets/brand/logo_orange.png" type="image/png">
+  <link rel="preload" href="assets/fonts/LilitaOne-Regular.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="assets/fonts/Quicksand-Medium.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-<a class="skip-link" href="#main">Skip to content</a>
-
-<svg class="sprite" aria-hidden="true" focusable="false" width="0" height="0">
-  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6"/></symbol>
-  <symbol id="i-arrow-dr" viewBox="0 0 24 24"><path d="M7 7h10v10M7 17 17 7"/></symbol>
-  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5 18.5 12 8 18.5V5.5Z" stroke-linejoin="round"/></symbol>
-  <symbol id="i-mobile" viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10.5 18.5h3"/></symbol>
-  <symbol id="i-desktop" viewBox="0 0 24 24"><rect x="2.5" y="4" width="19" height="13" rx="2.5"/><path d="M9 21h6m-3-4v4"/></symbol>
-  <symbol id="i-pad" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="11" rx="5.5"/><path d="M7.5 11v3M6 12.5h3m5.5-.5h.01M18 14h.01"/></symbol>
-  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3.5 9.5h17m-17 5h17M12 3c-5 6-5 12 0 18 5-6 5-12 0-18Z"/></symbol>
-  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21.5S4.5 15.6 4.5 10a7.5 7.5 0 0 1 15 0c0 5.6-7.5 11.5-7.5 11.5Z" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.6"/></symbol>
-  <symbol id="i-x" viewBox="0 0 24 24"><path d="m4 4 16 16M20 4 4 20"/></symbol>
-  <symbol id="i-in" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 10.5V17M8 7.4v.1M12.2 17v-3.6a2.4 2.4 0 0 1 4.8 0V17"/></symbol>
-  <symbol id="i-yt" viewBox="0 0 24 24"><rect x="2.5" y="5.5" width="19" height="13" rx="4.5"/><path d="m10.5 9.5 4.5 2.5-4.5 2.5v-5Z" stroke-linejoin="round"/></symbol>
-  <symbol id="i-dc" viewBox="0 0 24 24"><path d="M8.5 5.5 6 6.2C4 9 3.2 12.4 3.5 16.3c1.8 1.3 3.6 2 5.3 2.2l1-1.7m4.7-11.3L17 6.2c2 2.8 2.8 6.2 2.5 10.1-1.8 1.3-3.6 2-5.3 2.2l-1-1.7" stroke-linejoin="round"/><path d="M7 14.5c3.4 1.6 6.6 1.6 10 0M9.6 11.6v.1m4.8-.1v.1"/></symbol>
-  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></symbol>
-  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.3 15.3A8.5 8.5 0 0 1 8.7 3.7a8.5 8.5 0 1 0 11.6 11.6Z"/></symbol>
-  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3.2 13.9 9l6 .5-4.6 3.9 1.5 5.8-4.8-3.2-4.8 3.2 1.5-5.8L4.1 9.5l6-.5L12 3.2Z" stroke-linejoin="round"/></symbol>
-  <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13.4 2.5 5 13.4h5.6l-.9 8.1L18.7 10h-5.6l.3-7.5Z" stroke-linejoin="round"/></symbol>
-  <symbol id="i-chip" viewBox="0 0 24 24"><rect x="6.5" y="6.5" width="11" height="11" rx="3"/><path d="M10 3v3.5M14 3v3.5M10 17.5V21m4-3.5V21M3 10h3.5M3 14h3.5M17.5 10H21m-3.5 4H21"/></symbol>
-  <symbol id="i-people" viewBox="0 0 24 24"><circle cx="9" cy="8.5" r="3.4"/><path d="M2.8 20a6.2 6.2 0 0 1 12.4 0M16 5.6a3.4 3.4 0 0 1 0 6.6m1.4 2.2A6.2 6.2 0 0 1 21.4 20"/></symbol>
-  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5.2l3.4 2"/></symbol>
-  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3.5 10.6 12 3.8l8.5 6.8V20a1 1 0 0 1-1 1h-15a1 1 0 0 1-1-1v-9.4Z" stroke-linejoin="round"/><path d="M9.5 21v-6h5v6"/></symbol>
-</svg>
-
-<!-- ================= PAGE TRANSITION ================= -->
-<div class="intro" id="intro" role="presentation" aria-hidden="true">
-  <div class="intro-inner">
-    <img class="intro-mark" src="assets/brand/logo_cream-400.png" alt="" width="400" height="196" fetchpriority="high" decoding="async">
-    <p class="intro-tag"><span>Play your way.</span></p>
-  </div>
-</div>
-
-<!-- ================= CUSTOM CURSOR ================= -->
-<div class="cursor" id="cursor" aria-hidden="true">
-  <span class="cursor-dot"></span>
-  <span class="cursor-ring"><b class="cursor-label"></b></span>
-</div>
-
-<div class="grain" aria-hidden="true"></div>
-<div class="orb orb-a" aria-hidden="true"></div>
-<div class="orb orb-b" aria-hidden="true"></div>
-
-<div class="scroll-rail" aria-hidden="true"><span id="scrollRail"></span></div>
-
-<!-- ================= HEADER ================= -->
-<header class="site-header" id="siteHeader">
-  <div class="header-inner">
-    <a class="logo" href="#top" aria-label="GOYO Games — home" data-cursor="top">
-      <!-- Approved logo variations: primary purple, reverse cream (used over the purple menu) -->
-      <img class="logo-primary" src="assets/brand/logo_purple-400.png" alt="GOYO Games" width="400" height="196" fetchpriority="high" decoding="async">
-      <img class="logo-reverse" src="assets/brand/logo_cream-400.png" alt="" aria-hidden="true" width="400" height="196" decoding="async">
-    </a>
-
-    <nav class="nav-desk" aria-label="Primary" id="navDesk">
-      <span class="nav-pill" id="navPill" aria-hidden="true"></span>
-      <ul>
-        <li><a href="#games" data-nav>Games</a></li>
-        <li><a href="#about" data-nav>About</a></li>
-        <li><a href="#careers" data-nav>Careers</a></li>
-        <li><a href="#news" data-nav>News</a></li>
-        <li><a href="#contact" data-nav>Contact</a></li>
-      </ul>
-    </nav>
-
-    <div class="header-cta">
-      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark mode" aria-pressed="false" title="Switch to dark mode">
-        <svg class="ico theme-sun" aria-hidden="true"><use href="#i-sun"/></svg>
-        <svg class="ico theme-moon" aria-hidden="true"><use href="#i-moon"/></svg>
-        <span class="sr theme-toggle-text">Switch to dark mode</span>
-      </button>
-      <a class="btn btn-orange btn-sm" href="#games" data-magnetic data-cursor="play">Play now <span class="btn-arrows" aria-hidden="true"><svg class="ico"><use href="#i-arrow"/></svg><svg class="ico"><use href="#i-arrow"/></svg></span></a>
-      <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
-        <span></span><span></span>
-      </button>
-    </div>
-  </div>
-</header>
-
-<!-- ================= MOBILE MENU ================= -->
-<div class="menu-panel" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Menu" hidden>
-  <nav class="menu-nav" aria-label="Mobile">
-    <a href="#games"><i>01</i><span>Games</span><svg class="ico" aria-hidden="true"><use href="#i-arrow-dr"/></svg></a>
-    <a href="#about"><i>02</i><span>About</span><svg class="ico" aria-hidden="true"><use href="#i-arrow-dr"/></svg></a>
-    <a href="#careers"><i>03</i><span>Careers</span><svg class="ico" aria-hidden="true"><use href="#i-arrow-dr"/></svg></a>
-    <a href="#news"><i>04</i><span>News</span><svg class="ico" aria-hidden="true"><use href="#i-arrow-dr"/></svg></a>
-    <a href="#contact"><i>05</i><span>Contact</span><svg class="ico" aria-hidden="true"><use href="#i-arrow-dr"/></svg></a>
-  </nav>
-  <div class="menu-foot">
-    <a class="btn btn-orange" href="#games">Explore our games <span class="btn-arrows" aria-hidden="true"><svg class="ico"><use href="#i-arrow"/></svg><svg class="ico"><use href="#i-arrow"/></svg></span></a>
-    <p class="menu-tag">Play your way.</p>
-  </div>
-</div>
-
-<main id="main">
-
-<!-- ================= HERO ================= -->
-<section class="hero" id="top" data-section="top">
-  <!-- Depth layers: each moves at its own rate under the pointer and the scroll. -->
-  <div class="hero-bg" aria-hidden="true">
-    <span class="hero-band" data-par="6" data-par-scroll=".06"></span>
-    <span class="hero-blot b1" data-par="10" data-par-scroll=".14"></span>
-    <span class="hero-blot b2" data-par="-14" data-par-scroll=".2"></span>
-    <span class="hero-blot b3" data-par="8" data-par-scroll=".1"></span>
-    <div class="hero-motes" id="heroMotes"></div>
+  <div class="splash-screen" id="splashScreen">
+    <span class="goyo-logo splash-logo" aria-hidden="true"><span class="goyo-word">G<span class="goyo-eye" data-logo-eye><i></i></span>Y<span class="goyo-eye" data-logo-eye><i></i></span></span></span>
   </div>
 
-  <div class="hero-grid">
-    <div class="hero-copy">
-      <p class="eyebrow anim" data-anim="up"><span class="dot"></span>GOYO Games — Independent game studio</p>
-      <h1 class="hero-title">
-        <span class="line"><span>Simple to</span></span>
-        <span class="line"><span>enter. <em>Fun</em></span></span>
-        <span class="line"><span>to master.</span></span>
-      </h1>
-      <p class="hero-lead anim" data-anim="up" data-delay="1">We build bright, playful worlds you can pick up in five seconds and think about for five months. Short sessions. Long obsessions.</p>
-      <div class="hero-actions anim" data-anim="up" data-delay="2">
-        <a class="btn btn-orange" href="#games" data-magnetic data-cursor="view">Explore our games <span class="btn-arrows" aria-hidden="true"><svg class="ico"><use href="#i-arrow"/></svg><svg class="ico"><use href="#i-arrow"/></svg></span></a>
-        <a class="btn btn-ghost" href="#featured" data-magnetic data-cursor="play"><svg class="ico" aria-hidden="true"><use href="#i-play"/></svg> Watch the reel</a>
-      </div>
-      <ul class="hero-meta anim" data-anim="up" data-delay="3">
-        <li><strong data-count="12">12</strong><span>Games shipped</span></li>
-        <li><strong data-count="50" data-suffix="M+">50M+</strong><span>Players</span></li>
-        <li><strong data-count="140">140</strong><span>Countries</span></li>
-      </ul>
-    </div>
+  <a class="skip-link" href="#film">Skip to the experience</a>
 
-    <div class="hero-stage" aria-hidden="true">
-      <div class="stage-shape s1" data-par="18" data-par-scroll="-.08"></div>
-      <div class="stage-shape s2" data-par="-26" data-par-scroll=".12"></div>
-      <div class="stage-shape s3" data-par="12" data-par-scroll="-.05"></div>
+  <svg class="sprite" aria-hidden="true" width="0" height="0">
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6"/></symbol>
+    <symbol id="i-diagonal" viewBox="0 0 24 24"><path d="M5 19 19 5M8 5h11v11"/></symbol>
+  </svg>
 
-      <div class="stage-card c1" data-par="-14" data-par-scroll=".05">
-        <div class="art">
-          <svg viewBox="0 0 300 300"><rect width="300" height="300" fill="#4D194D"/><rect x="60" y="176" width="180" height="46" rx="16" fill="#FFF1E6"/><rect x="84" y="122" width="132" height="46" rx="16" fill="#FF7B00"/><rect x="108" y="68" width="84" height="46" rx="16" fill="#FFF1E6"/><circle cx="150" cy="42" r="15" fill="#FF7B00"/><rect x="40" y="234" width="220" height="14" rx="7" fill="#FFF1E6" opacity=".45"/></svg>
-        </div>
-        <p class="stage-label">Tumble Tower</p>
-      </div>
-
-      <div class="stage-card c2" data-par="22" data-par-scroll="-.09">
-        <div class="art">
-          <svg viewBox="0 0 300 300"><rect width="300" height="300" fill="#FF7B00"/><path d="M0 210c60-34 110-34 150 0s90 34 150 0v90H0Z" fill="#4D194D"/><circle cx="150" cy="112" r="52" fill="#FFF1E6"/><rect x="118" y="96" width="64" height="30" rx="15" fill="#4D194D"/><circle cx="96" cy="240" r="24" fill="#FFF1E6"/><circle cx="208" cy="240" r="24" fill="#FFF1E6"/></svg>
-        </div>
-        <p class="stage-label">Neon Drift</p>
-      </div>
-
-      <div class="stage-card c3" data-par="-30" data-par-scroll=".1">
-        <div class="art">
-          <svg viewBox="0 0 300 300"><rect width="300" height="300" fill="#FFF1E6"/><circle cx="150" cy="150" r="88" fill="#4D194D"/><circle cx="150" cy="94" r="34" fill="#FF7B00"/><circle cx="206" cy="150" r="34" fill="#FF7B00"/><circle cx="150" cy="206" r="34" fill="#FF7B00"/><circle cx="94" cy="150" r="34" fill="#FF7B00"/><circle cx="150" cy="150" r="26" fill="#FFF1E6"/></svg>
-        </div>
-        <p class="stage-label">Bloom Valley</p>
-      </div>
-
-      <div class="sticker sticker-hero" data-par="34" data-par-scroll="-.14"><span>Play your way.</span></div>
-    </div>
+  <div class="cursor" id="cursor" aria-hidden="true">
+    <span class="cursor-glow"></span><span class="cursor-dot"></span>
+    <span class="cursor-ring"><b class="cursor-label"></b></span>
   </div>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="scroll-rail" aria-hidden="true"><span id="scrollRail"></span></div>
 
-  <a class="scroll-hint anim" data-anim="fade" data-delay="4" href="#games" aria-label="Scroll to our games">
-    <span class="scroll-hint-label">Scroll</span>
-    <span class="scroll-hint-rail" aria-hidden="true"><i></i></span>
-  </a>
-</section>
-
-<!-- ================= MARQUEE ================= -->
-<div class="marquee" aria-hidden="true">
-  <div class="marquee-track">
-    <div class="marquee-group">
-      <span>Playful</span><b>&#10022;</b><span>Bold</span><b>&#10022;</b><span>Creative</span><b>&#10022;</b><span>Energetic</span><b>&#10022;</b><span>Friendly</span><b>&#10022;</b>
-    </div>
-    <div class="marquee-group">
-      <span>Playful</span><b>&#10022;</b><span>Bold</span><b>&#10022;</b><span>Creative</span><b>&#10022;</b><span>Energetic</span><b>&#10022;</b><span>Friendly</span><b>&#10022;</b>
-    </div>
-  </div>
-</div>
-
-<!-- ================= GAMES ================= -->
-<section class="section games" id="games" data-section="games">
-  <div class="wrap">
-    <header class="sec-head">
-      <div>
-        <p class="eyebrow anim" data-anim="up"><span class="dot"></span>01 — Portfolio</p>
-        <h2 class="sec-title anim" data-anim="clip" data-delay="1">Our games</h2>
-      </div>
-      <p class="sec-sub anim" data-anim="up" data-delay="2">Worlds built to play. Every title starts with one question: would we lose an afternoon to this?</p>
-    </header>
-
-    <div class="game-grid" data-stagger>
-
-      <article class="game-card anim" data-anim="up" data-card>
-        <div class="game-art" data-cursor="explore">
-          <div class="game-art-inner">
-            <svg viewBox="0 0 600 420" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Tumble Tower key art: stacked rounded blocks on a purple ground"><rect width="600" height="420" fill="#4D194D"/><g opacity=".18" stroke="#FFF1E6" stroke-width="2"><path d="M0 60h600M0 140h600M0 220h600M0 300h600M0 380h600"/></g><rect x="180" y="264" width="240" height="62" rx="22" fill="#FFF1E6"/><rect x="210" y="192" width="180" height="62" rx="22" fill="#FF7B00"/><rect x="240" y="120" width="120" height="62" rx="22" fill="#FFF1E6"/><circle cx="300" cy="88" r="20" fill="#FF7B00"/><rect x="120" y="342" width="360" height="18" rx="9" fill="#FFF1E6" opacity=".4"/></svg>
-          </div>
-          <span class="game-num">01</span>
-          <span class="sticker sticker-card"><span>Top 10</span></span>
-        </div>
-        <div class="game-body">
-          <h3>Tumble Tower</h3>
-          <p class="game-genre">Puzzle · Arcade</p>
-          <p class="game-desc">Stack it high, keep it steady. A physics puzzler that gets meaner every floor.</p>
-          <ul class="plats" aria-label="Platforms">
-            <li><svg class="ico" aria-hidden="true"><use href="#i-mobile"/></svg><span>Mobile</span></li>
-            <li><svg class="ico" aria-hidden="true"><use href="#i-pad"/></svg><span>Console</span></li>
-          </ul>
-          <a class="game-cta" href="#contact" data-cursor="view">Play now <span class="btn-arrows" aria-hidden="true"><svg class="ico"><use href="#i-arrow"/></svg><svg class="ico"><use href="#i-arrow"/></svg></span><span class="sr">— Tumble Tower</span></a>
-        </div>
-      </article>
-
-      <article class="game-card anim" data-anim="up" data-delay="1" data-card>
-        <div class="game-art" data-cursor="explore">
-          <div class="game-art-inner">
-            <svg viewBox="0 0 600 420" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Neon Drift key art: a rounded racer over an orange horizon"><rect width="600" height="420" fill="#FF7B00"/><path d="M0 290c120-48 220-48 300 0s180 48 300 0v130H0Z" fill="#4D194D"/><circle cx="300" cy="160" r="76" fill="#FFF1E6"/><rect x="252" y="136" width="96" height="44" rx="22" fill="#4D194D"/><circle cx="216" cy="336" r="34" fill="#FFF1E6"/><circle cx="384" cy="336" r="34" fill="#FFF1E6"/><rect x="60" y="60" width="86" height="16" rx="8" fill="#FFF1E6" opacity=".7"/><rect x="60" y="94" width="52" height="16" rx="8" fill="#FFF1E6" opacity=".45"/></svg>
-          </div>
-          <span class="game-num">02</span>
-        </div>
-        <div class="game-body">
-          <h3>Neon Drift</h3>
-          <p class="game-genre">Racing · Arcade</p>
-          <p class="game-desc">One thumb, one perfect line. Chase the ghosts of your own best runs.</p>
-          <ul class="plats" aria-label="Platforms">
-            <li><svg class="ico" aria-hidden="true"><use href="#i-mobile"/></svg><span>Mobile</span></li>
-            <li><svg class="ico" aria-hidden="true"><use href="#i-desktop"/></svg><span>PC</span></li>
-          </ul>
-          <a class="game-cta" href="#contact" data-cursor="view">Discover <span class="btn-arrows" aria-hidden="true"><svg class="ico"><use href="#i-arrow"/></svg><svg class="ico"><use href="#i-arrow"/></svg></span><span class="sr">— Neon Drift</span></a>
-        </div>
-      </article>
-
-      <article class="game-card anim" data-anim="up" data-delay="2" data-card>
-        <div class="game-art" data-cursor="explore">
-          <div class="game-art-inner">
-            <svg viewBox="0 0 600 420" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Bloom Valley key art: a flower built from circles"><rect width="600" height="420" fill="#FFF1E6"/><circle cx="300" cy="210" r="132" fill="#4D194D"/><circle cx="300" cy="126" r="52" fill="#FF7B00"/><circle cx="384" cy="210" r="52" fill="#FF7B00"/><circle cx="300" cy="294" r="52" fill="#FF7B00"/><circle cx="216" cy="210" r="52" fill="#FF7B00"/><circle cx="300" cy="210" r="40" fill="#FFF1E6"/><circle cx="80" cy="80" r="18" fill="#4D194D"/><circle cx="524" cy="340" r="26" fill="#4D194D"/></svg>
-          </div>
-          <span class="game-num on-light">03</span>
-          <span class="sticker sticker-card sticker-alt"><span>New</span></span>
-        </div>
-        <div class="game-body">
-          <h3>Bloom Valley</h3>
-          <p class="game-genre">Idle · Simulation</p>
-          <p class="game-desc">Grow a valley one small decision at a time. It keeps growing while you sleep.</p>
-          <ul class="plats" aria-label="Platforms">
-            <li><svg class="ico" aria-hidden="true"><use href="#i-mobile"/></svg><span>Mobile</span></li>
-          </ul>
-          <a class="game-cta" href="#contact" data-cursor="view">Play now <span class="btn-arrows" aria-hidden="true"><svg class="ico"><use href="#i-arrow"/></svg><svg class="ico"><use href="#i-arrow"/></svg></span><span class="sr">— Bloom Valley</span></a>
-        </div>
-      </article>
-
-      <article class="game-card anim" data-anim="up" data-card>
-        <div class="game-art" data-cursor="explore">
-          <div class="game-art-inner">
-            <svg viewBox="0 0 600 420" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Pocket Raiders key art: a rounded shield emblem"><rect width="600" height="420" fill="#4D194D"/><path d="M300 70l120 44v96c0 78-48 122-120 144-72-22-120-66-120-144v-96l120-44Z" fill="#FF7B00"/><path d="M300 132l60 22v58c0 40-24 62-60 74-36-12-60-34-60-74v-58l60-22Z" fill="#FFF1E6"/><circle cx="112" cy="112" r="22" fill="#FFF1E6" opacity=".5"/><circle cx="492" cy="308" r="30" fill="#FF7B00" opacity=".55"/></svg>
-          </div>
-          <span class="game-num">04</span>
-        </div>
-        <div class="game-body">
-          <h3>Pocket Raiders</h3>
-          <p class="game-genre">Action · RPG</p>
-          <p class="game-desc">Tiny heroes, huge loot. Run a dungeon in the time it takes to make coffee.</p>
-          <ul class="plats" aria-label="Platforms">
-            <li><svg class="ico" aria-hidden="true"><use href="#i-mobile"/></svg><span>Mobile</span></li>
-            <li><svg class="ico" aria-hidden="true"><use href="#i-pad"/></svg><span>Console</span></li>
-            <li><svg class="ico" aria-hidden="true"><use href="#i-desktop"/></svg><span>PC</span></li>
-          </ul>
-          <a class="game-cta" href="#contact" data-cursor="view">Discover <span class="btn-arrows" aria-hidden="true"><svg class="ico"><use href="#i-arrow"/></svg><svg class="ico"><use href="#i-arrow"/></svg></span><span class="sr">— Pocket Raiders</span></a>
-        </div>
-      </article>
-
-      <article class="game-card anim" data-anim="up" data-delay="1" data-card>
-        <div class="game-art" data-cursor="explore">
-          <div class="game-art-inner">
-            <svg viewBox="0 0 600 420" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Word Rush key art: rounded letter tiles"><rect width="600" height="420" fill="#FF7B00"/><rect x="96" y="118" width="120" height="120" rx="34" fill="#FFF1E6"/><rect x="240" y="118" width="120" height="120" rx="34" fill="#4D194D"/><rect x="384" y="118" width="120" height="120" rx="34" fill="#FFF1E6"/><rect x="168" y="262" width="120" height="120" rx="34" fill="#4D194D"/><rect x="312" y="262" width="120" height="120" rx="34" fill="#FFF1E6"/><circle cx="300" cy="60" r="18" fill="#4D194D"/></svg>
-          </div>
-          <span class="game-num">05</span>
-        </div>
-        <div class="game-body">
-          <h3>Word Rush</h3>
-          <p class="game-genre">Word · Puzzle</p>
-          <p class="game-desc">Sixty seconds. One board. Your vocabulary against the clock.</p>
-          <ul class="plats" aria-label="Platforms">
-            <li><svg class="ico" aria-hidden="true"><use href="#i-mobile"/></svg><span>Mobile</span></li>
-            <li><svg class="ico" aria-hidden="true"><use href="#i-globe"/></svg><span>Web</span></li>
-          </ul>
-          <a class="game-cta" href="#contact" data-cursor="view">Play now <span class="btn-arrows" aria-hidden="true"><svg class="ico"><use href="#i-arrow"/></svg><svg class="ico"><use href="#i-arrow"/></svg></span><span class="sr">— Word Rush</span></a>
-        </div>
-      </article>
-
-      <article class="game-card anim" data-anim="up" data-delay="2" data-card>
-        <div class="game-art" data-cursor="explore">
-          <div class="game-art-inner">
-            <svg viewBox="0 0 600 420" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Sky Hoppers key art: rounded platforms rising through a cream sky"><rect width="600" height="420" fill="#FFF1E6"/><rect x="72" y="300" width="180" height="40" rx="20" fill="#4D194D"/><rect x="216" y="212" width="180" height="40" rx="20" fill="#FF7B00"/><rect x="348" y="124" width="180" height="40" rx="20" fill="#4D194D"/><circle cx="300" cy="176" r="34" fill="#4D194D"/><circle cx="290" cy="168" r="7" fill="#FFF1E6"/><circle cx="314" cy="168" r="7" fill="#FFF1E6"/><circle cx="500" cy="70" r="24" fill="#FF7B00"/></svg>
-          </div>
-          <span class="game-num on-light">06</span>
-        </div>
-        <div class="game-body">
-          <h3>Sky Hoppers</h3>
-          <p class="game-genre">Casual · Platformer</p>
-          <p class="game-desc">Up is the only direction. Miss once and the sky takes it all back.</p>
-          <ul class="plats" aria-label="Platforms">
-            <li><svg class="ico" aria-hidden="true"><use href="#i-mobile"/></svg><span>Mobile</span></li>
-          </ul>
-          <a class="game-cta" href="#contact" data-cursor="view">Discover <span class="btn-arrows" aria-hidden="true"><svg class="ico"><use href="#i-arrow"/></svg><svg class="ico"><use href="#i-arrow"/></svg></span><span class="sr">— Sky Hoppers</span></a>
-        </div>
-      </article>
-
-    </div>
-  </div>
-</section>
-
-<!-- ================= FEATURED ================= -->
-<section class="section featured" id="featured" data-section="featured">
-  <div class="wrap">
-    <div class="feat-grid">
-      <div class="feat-visual">
-        <div class="feat-sticky">
-          <span class="feat-num" data-par="-16" data-par-scroll=".08" aria-hidden="true">01</span>
-
-          <!-- Placeholder key art, same original SVG system as the rest of the site.
-               Swap each frame for a real screenshot when the art lands. -->
-          <div class="feat-art anim" data-anim="clip" data-cursor="explore">
-            <div class="feat-frames" id="featFrames" role="tabpanel" tabindex="0" aria-labelledby="frame-tab-0">
-              <div class="feat-frame is-active" data-frame="0" data-par-scroll=".05">
-                <svg viewBox="0 0 700 560" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Tumble Tower featured key art: the tower at full height"><rect width="700" height="560" fill="#4D194D"/><g opacity=".16" stroke="#FFF1E6" stroke-width="2"><path d="M0 80h700M0 160h700M0 240h700M0 320h700M0 400h700M0 480h700"/></g><rect x="190" y="368" width="320" height="76" rx="26" fill="#FFF1E6"/><rect x="228" y="278" width="244" height="76" rx="26" fill="#FF7B00"/><rect x="266" y="188" width="168" height="76" rx="26" fill="#FFF1E6"/><rect x="304" y="112" width="92" height="62" rx="24" fill="#FF7B00"/><circle cx="350" cy="80" r="20" fill="#FFF1E6"/><rect x="120" y="466" width="460" height="20" rx="10" fill="#FFF1E6" opacity=".4"/></svg>
-              </div>
-              <div class="feat-frame" data-frame="1" data-par-scroll=".05">
-                <svg viewBox="0 0 700 560" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Tumble Tower: a leaning stack mid-wobble"><rect width="700" height="560" fill="#FF7B00"/><g opacity=".2" stroke="#4D194D" stroke-width="2"><path d="M0 100h700M0 200h700M0 300h700M0 400h700"/></g><g transform="rotate(-9 350 470)"><rect x="200" y="392" width="300" height="72" rx="26" fill="#4D194D"/><rect x="238" y="306" width="224" height="72" rx="26" fill="#FFF1E6"/><rect x="286" y="220" width="128" height="72" rx="26" fill="#4D194D"/><rect x="318" y="152" width="64" height="54" rx="22" fill="#FFF1E6"/></g><circle cx="120" cy="118" r="40" fill="#FFF1E6"/><circle cx="120" cy="118" r="15" fill="#4D194D"/><rect x="500" y="86" width="120" height="22" rx="11" fill="#4D194D" opacity=".55"/></svg>
-              </div>
-              <div class="feat-frame" data-frame="2" data-par-scroll=".05">
-                <svg viewBox="0 0 700 560" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Tumble Tower: a cleared board with a score ribbon"><rect width="700" height="560" fill="#FFF1E6"/><circle cx="350" cy="252" r="150" fill="#4D194D"/><rect x="266" y="216" width="168" height="52" rx="22" fill="#FF7B00"/><rect x="296" y="288" width="108" height="40" rx="18" fill="#FFF1E6"/><circle cx="350" cy="150" r="26" fill="#FF7B00"/><rect x="96" y="446" width="508" height="34" rx="17" fill="#4D194D"/><circle cx="112" cy="112" r="26" fill="#FF7B00"/><circle cx="596" cy="360" r="34" fill="#4D194D" opacity=".22"/></svg>
-              </div>
-            </div>
-          </div>
-
-          <span class="sticker sticker-feat" data-par="24" data-par-scroll="-.1"><span>Now playing</span></span>
-
-          <div class="feat-gallery" role="tablist" aria-label="Tumble Tower gallery">
-            <button class="feat-thumb is-active" type="button" role="tab" aria-selected="true" aria-controls="featFrames" data-frame="0" id="frame-tab-0">
-              <svg viewBox="0 0 120 90" aria-hidden="true"><rect width="120" height="90" fill="#4D194D"/><rect x="32" y="60" width="56" height="13" rx="5" fill="#FFF1E6"/><rect x="39" y="44" width="42" height="13" rx="5" fill="#FF7B00"/><rect x="46" y="28" width="28" height="13" rx="5" fill="#FFF1E6"/></svg>
-              <span class="sr">Frame 1 — the tower at full height</span>
-            </button>
-            <button class="feat-thumb" type="button" role="tab" aria-selected="false" aria-controls="featFrames" data-frame="1" id="frame-tab-1">
-              <svg viewBox="0 0 120 90" aria-hidden="true"><rect width="120" height="90" fill="#FF7B00"/><g transform="rotate(-9 60 74)"><rect x="34" y="62" width="52" height="12" rx="5" fill="#4D194D"/><rect x="41" y="47" width="38" height="12" rx="5" fill="#FFF1E6"/><rect x="49" y="32" width="22" height="12" rx="5" fill="#4D194D"/></g></svg>
-              <span class="sr">Frame 2 — a leaning stack mid-wobble</span>
-            </button>
-            <button class="feat-thumb" type="button" role="tab" aria-selected="false" aria-controls="featFrames" data-frame="2" id="frame-tab-2">
-              <svg viewBox="0 0 120 90" aria-hidden="true"><rect width="120" height="90" fill="#FFF1E6"/><circle cx="60" cy="42" r="26" fill="#4D194D"/><rect x="46" y="36" width="28" height="9" rx="4" fill="#FF7B00"/><rect x="18" y="74" width="84" height="8" rx="4" fill="#4D194D"/></svg>
-              <span class="sr">Frame 3 — a cleared board with a score ribbon</span>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div class="feat-copy">
-        <p class="eyebrow anim" data-anim="up"><span class="dot"></span>02 — Featured title</p>
-        <h2 class="feat-title">
-          <span class="line"><span>Tumble</span></span>
-          <span class="line"><span>Tower</span></span>
-        </h2>
-        <p class="feat-desc anim" data-anim="up" data-delay="2">Our most-played title. A deceptively gentle stacking puzzle that turns into a test of nerve around floor forty. Built in-house, tuned over eighteen months, and still climbing the charts.</p>
-        <dl class="feat-specs" data-stagger>
-          <div class="anim" data-anim="up"><dt>Genre</dt><dd>Puzzle · Arcade</dd></div>
-          <div class="anim" data-anim="up"><dt>Platforms</dt><dd>iOS · Android · Switch</dd></div>
-          <div class="anim" data-anim="up"><dt>Status</dt><dd>Live · Season 4</dd></div>
-          <div class="anim" data-anim="up"><dt>Players</dt><dd><span data-count="18" data-suffix="M+">18M+</span></dd></div>
-        </dl>
-        <div class="anim" data-anim="up" data-delay="4">
-          <a class="btn btn-orange btn-lg" href="#contact" data-magnetic data-cursor="play">Play Tumble Tower <span class="btn-arrows" aria-hidden="true"><svg class="ico"><use href="#i-arrow"/></svg><svg class="ico"><use href="#i-arrow"/></svg></span></a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= STATEMENT ================= -->
-<section class="statement">
-  <div class="wrap">
-    <h2 class="statement-title">
-      <span class="line"><span>We don't just</span></span>
-      <span class="line"><span>make games.</span></span>
-      <span class="line"><span>We build <em>worlds</em>.</span></span>
-    </h2>
-    <p class="statement-sub anim" data-anim="up" data-delay="3">Every world starts small — one rule, one loop, one feeling worth chasing.</p>
-  </div>
-  <div class="statement-shape sh-a" data-par="20" data-par-scroll="-.12" aria-hidden="true"></div>
-  <div class="statement-shape sh-b" data-par="-24" data-par-scroll=".16" aria-hidden="true"></div>
-</section>
-
-<!-- ================= STATS ================= -->
-<section class="section stats" data-section="stats">
-  <div class="wrap">
-    <header class="sec-head">
-      <div>
-        <p class="eyebrow anim" data-anim="up"><span class="dot"></span>03 — By the numbers</p>
-        <h2 class="sec-title anim" data-anim="clip" data-delay="1">The scoreboard</h2>
-      </div>
-      <p class="sec-sub anim" data-anim="up" data-delay="2">Numbers we're proud of, and a few we're still chasing.</p>
-    </header>
-
-    <div class="stat-grid" data-stagger>
-      <div class="stat-card sc-1 anim" data-anim="up"><i class="stat-rank" aria-hidden="true">01</i><strong data-count="12">12</strong><span>Games shipped</span></div>
-      <div class="stat-card sc-2 anim" data-anim="up"><i class="stat-rank" aria-hidden="true">02</i><strong data-count="50" data-suffix="M+">50M+</strong><span>Players</span></div>
-      <div class="stat-card sc-3 anim" data-anim="up"><i class="stat-rank" aria-hidden="true">03</i><strong data-count="180" data-suffix="M+">180M+</strong><span>Downloads</span></div>
-      <div class="stat-card sc-4 anim" data-anim="up"><i class="stat-rank" aria-hidden="true">04</i><strong data-count="140">140</strong><span>Countries</span></div>
-      <div class="stat-card sc-5 anim" data-anim="up"><i class="stat-rank" aria-hidden="true">05</i><strong data-count="8">8</strong><span>Years playing</span></div>
-      <div class="stat-card sc-6 anim" data-anim="up"><i class="stat-rank" aria-hidden="true">06</i><strong data-count="64">64</strong><span>People on the team</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= ABOUT ================= -->
-<section class="section about" id="about" data-section="about">
-  <div class="wrap">
-    <header class="sec-head">
-      <div>
-        <p class="eyebrow anim" data-anim="up"><span class="dot"></span>04 — The studio</p>
-        <h2 class="sec-title anim" data-anim="clip" data-delay="1">Who we are</h2>
-      </div>
-    </header>
-
-    <div class="about-grid">
-      <div class="about-copy">
-        <p class="about-lead anim" data-anim="up">GOYO Games is a small studio with a loud opinion: a game should feel inviting in the first five seconds and rewarding for the next five hundred hours.</p>
-        <p class="anim" data-anim="up" data-delay="1">We start every project with a paper prototype and one honest question — is this actually fun yet? Nothing gets art, audio or a roadmap until the answer is yes. That discipline is why our games look simple and play deep.</p>
-        <p class="anim" data-anim="up" data-delay="2">We're designers, engineers, artists and one very opinionated QA lead, spread across three time zones and united by a build channel that never sleeps.</p>
-
-        <ul class="tag-row anim" data-anim="up" data-delay="3" role="tablist" aria-label="What we're made of" id="aboutTabs">
-          <li role="presentation"><button class="tag is-active" type="button" role="tab" aria-selected="true" aria-controls="aboutPanel" data-facet="creative" id="facet-creative"><svg class="ico" aria-hidden="true"><use href="#i-spark"/></svg>Creative</button></li>
-          <li role="presentation"><button class="tag tag-orange" type="button" role="tab" aria-selected="false" aria-controls="aboutPanel" data-facet="play" id="facet-play"><svg class="ico" aria-hidden="true"><use href="#i-play"/></svg>Play</button></li>
-          <li role="presentation"><button class="tag" type="button" role="tab" aria-selected="false" aria-controls="aboutPanel" data-facet="tech" id="facet-tech"><svg class="ico" aria-hidden="true"><use href="#i-chip"/></svg>Tech</button></li>
-          <li role="presentation"><button class="tag tag-orange" type="button" role="tab" aria-selected="false" aria-controls="aboutPanel" data-facet="community" id="facet-community"><svg class="ico" aria-hidden="true"><use href="#i-people"/></svg>Community</button></li>
-        </ul>
-      </div>
-
-      <div class="about-visual anim" data-anim="scale" data-delay="1">
-        <div class="about-art" data-par="12" data-par-scroll=".07" data-cursor="explore" id="aboutPanel" role="tabpanel" tabindex="0" aria-labelledby="facet-creative">
-          <!-- One abstract composition per facet, all built from the brand's own shapes. -->
-          <div class="about-scene is-active" data-facet="creative">
-            <svg viewBox="0 0 520 560" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Creative: abstract GOYO composition of rounded brand shapes"><rect width="520" height="560" fill="#4D194D"/><circle cx="150" cy="150" r="96" fill="#FF7B00"/><rect x="264" y="70" width="180" height="180" rx="60" fill="#FFF1E6"/><rect x="70" y="300" width="180" height="180" rx="60" fill="#FFF1E6"/><circle cx="360" cy="392" r="96" fill="#FF7B00"/><circle cx="360" cy="392" r="36" fill="#4D194D"/></svg>
-          </div>
-          <div class="about-scene" data-facet="play">
-            <svg viewBox="0 0 520 560" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Play: a rounded controller silhouette built from brand shapes"><rect width="520" height="560" fill="#FF7B00"/><rect x="60" y="196" width="400" height="220" rx="110" fill="#4D194D"/><circle cx="164" cy="306" r="26" fill="#FFF1E6"/><rect x="150" y="292" width="28" height="28" rx="14" fill="#FFF1E6"/><rect x="118" y="292" width="92" height="28" rx="14" fill="#FFF1E6"/><rect x="150" y="260" width="28" height="92" rx="14" fill="#FFF1E6"/><circle cx="336" cy="282" r="24" fill="#FF7B00"/><circle cx="384" cy="330" r="24" fill="#FFF1E6"/><circle cx="260" cy="112" r="46" fill="#FFF1E6"/><circle cx="260" cy="490" r="30" fill="#4D194D"/></svg>
-          </div>
-          <div class="about-scene" data-facet="tech">
-            <svg viewBox="0 0 520 560" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Tech: a rounded circuit lattice in the brand palette"><rect width="520" height="560" fill="#FFF1E6"/><rect x="140" y="180" width="240" height="200" rx="56" fill="#4D194D"/><rect x="204" y="244" width="112" height="72" rx="30" fill="#FF7B00"/><g stroke="#4D194D" stroke-width="10" stroke-linecap="round"><path d="M200 180v-70M260 180v-96M320 180v-70M200 380v70M260 380v96M320 380v70M140 240H70M140 300H44M140 340H70M380 240h70M380 300h96M380 340h70"/></g><circle cx="260" cy="52" r="22" fill="#FF7B00"/><circle cx="260" cy="508" r="22" fill="#FF7B00"/></svg>
-          </div>
-          <div class="about-scene" data-facet="community">
-            <svg viewBox="0 0 520 560" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Community: overlapping rounded player marks"><rect width="520" height="560" fill="#4D194D"/><circle cx="170" cy="196" r="78" fill="#FFF1E6"/><path d="M50 384a120 120 0 0 1 240 0Z" fill="#FFF1E6"/><circle cx="352" cy="252" r="62" fill="#FF7B00"/><path d="M256 414a96 96 0 0 1 192 0Z" fill="#FF7B00"/><circle cx="440" cy="106" r="30" fill="#FF7B00"/><rect x="80" y="470" width="360" height="26" rx="13" fill="#FFF1E6" opacity=".38"/></svg>
-          </div>
-        </div>
-        <div class="about-badge" data-par="-18" data-par-scroll="-.05">
-          <strong>Est. 2018</strong>
-          <span>Playing ever since</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= CAREERS ================= -->
-<section class="section careers" id="careers" data-section="careers">
-  <div class="wrap">
-    <div class="careers-top">
-      <div>
-        <p class="eyebrow light anim" data-anim="up"><span class="dot"></span>05 — Careers</p>
-        <h2 class="careers-title">
-          <span class="line"><span>Come build</span></span>
-          <span class="line"><span>with us.</span></span>
-        </h2>
-      </div>
-      <div class="careers-side">
-        <p class="anim" data-anim="up" data-delay="2">Flat structure, real ownership, and a Friday playtest that everyone actually shows up to. If you like shipping, you'll like it here.</p>
-      </div>
-    </div>
-
-    <ul class="perks" data-stagger>
-      <li class="perk anim" data-anim="up">
-        <span class="perk-ico" aria-hidden="true"><svg class="ico"><use href="#i-globe"/></svg></span>
-        <strong>Remote-first</strong>
-        <i aria-hidden="true">Unlocked</i>
-      </li>
-      <li class="perk anim" data-anim="up">
-        <span class="perk-ico" aria-hidden="true"><svg class="ico"><use href="#i-spark"/></svg></span>
-        <strong>Profit share</strong>
-        <i aria-hidden="true">Unlocked</i>
-      </li>
-      <li class="perk anim" data-anim="up">
-        <span class="perk-ico" aria-hidden="true"><svg class="ico"><use href="#i-play"/></svg></span>
-        <strong>Game budget</strong>
-        <i aria-hidden="true">Unlocked</i>
-      </li>
-      <li class="perk anim" data-anim="up">
-        <span class="perk-ico" aria-hidden="true"><svg class="ico"><use href="#i-clock"/></svg></span>
-        <strong>4-day sprints</strong>
-        <i aria-hidden="true">Unlocked</i>
-      </li>
-    </ul>
-
-    <ul class="jobs" data-stagger>
-      <li class="job anim" data-anim="up">
-        <a href="#contact" data-cursor="apply">
-          <span class="job-role">Senior Gameplay Engineer</span>
-          <span class="job-dept">Engineering</span>
-          <span class="job-loc"><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg>Remote · EU</span>
-          <span class="job-go" aria-hidden="true"><svg class="ico"><use href="#i-arrow"/></svg></span>
-        </a>
-      </li>
-      <li class="job anim" data-anim="up">
-        <a href="#contact" data-cursor="apply">
-          <span class="job-role">Game Designer, Live Ops</span>
-          <span class="job-dept">Design</span>
-          <span class="job-loc"><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg>Hybrid · Ahmedabad</span>
-          <span class="job-go" aria-hidden="true"><svg class="ico"><use href="#i-arrow"/></svg></span>
-        </a>
-      </li>
-      <li class="job anim" data-anim="up">
-        <a href="#contact" data-cursor="apply">
-          <span class="job-role">2D Artist / Animator</span>
-          <span class="job-dept">Art</span>
-          <span class="job-loc"><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg>Remote · Global</span>
-          <span class="job-go" aria-hidden="true"><svg class="ico"><use href="#i-arrow"/></svg></span>
-        </a>
-      </li>
-      <li class="job anim" data-anim="up">
-        <a href="#contact" data-cursor="apply">
-          <span class="job-role">User Acquisition Manager</span>
-          <span class="job-dept">Growth</span>
-          <span class="job-loc"><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg>Remote · EU / IN</span>
-          <span class="job-go" aria-hidden="true"><svg class="ico"><use href="#i-arrow"/></svg></span>
-        </a>
-      </li>
-    </ul>
-
-    <div class="careers-cta anim" data-anim="up">
-      <a class="btn btn-orange btn-lg" href="#contact" data-magnetic data-cursor="view">View open positions <span class="btn-arrows" aria-hidden="true"><svg class="ico"><use href="#i-arrow"/></svg><svg class="ico"><use href="#i-arrow"/></svg></span></a>
-      <p>Nothing fits? Send us something you made. We read everything.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ================= NEWS ================= -->
-<section class="section news" id="news" data-section="news">
-  <div class="wrap">
-    <header class="sec-head">
-      <div>
-        <p class="eyebrow anim" data-anim="up"><span class="dot"></span>06 — Newsroom</p>
-        <h2 class="sec-title anim" data-anim="clip" data-delay="1">Latest news</h2>
-      </div>
-      <p class="sec-sub anim" data-anim="up" data-delay="2">Patch notes, studio stories and the occasional post-mortem.</p>
-    </header>
-
-    <div class="news-grid" data-stagger>
-      <article class="article-card feature anim" data-anim="up">
-        <a href="#contact" data-cursor="read">
-          <div class="article-art">
-            <div class="article-art-inner" data-par-scroll=".06">
-              <svg viewBox="0 0 800 460" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Article artwork: Tumble Tower season four"><rect width="800" height="460" fill="#4D194D"/><rect x="300" y="290" width="260" height="60" rx="22" fill="#FFF1E6"/><rect x="330" y="220" width="200" height="60" rx="22" fill="#FF7B00"/><rect x="360" y="150" width="140" height="60" rx="22" fill="#FFF1E6"/><circle cx="140" cy="120" r="46" fill="#FF7B00"/><circle cx="680" cy="360" r="60" fill="#FF7B00" opacity=".5"/></svg>
-            </div>
-          </div>
-          <div class="article-body">
-            <p class="article-meta"><span class="cat">Update</span><time datetime="2026-08-21">21 Aug 2026</time></p>
-            <h3>Tumble Tower Season 4 is live — new floors, new physics</h3>
-            <p class="article-ex">Forty fresh floors, a rebuilt collision model and a co-op mode we've been sitting on for a year.</p>
-            <span class="article-go" aria-hidden="true"><svg class="ico"><use href="#i-arrow-dr"/></svg></span>
-          </div>
-        </a>
-      </article>
-
-      <article class="article-card anim" data-anim="up">
-        <a href="#contact" data-cursor="read">
-          <div class="article-art">
-            <div class="article-art-inner" data-par-scroll=".05">
-              <svg viewBox="0 0 800 460" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Article artwork: studio playtest culture"><rect width="800" height="460" fill="#FF7B00"/><circle cx="400" cy="230" r="140" fill="#FFF1E6"/><circle cx="400" cy="230" r="70" fill="#4D194D"/><rect x="60" y="60" width="120" height="28" rx="14" fill="#FFF1E6" opacity=".7"/></svg>
-            </div>
-          </div>
-          <div class="article-body">
-            <p class="article-meta"><span class="cat">Studio</span><time datetime="2026-07-30">30 Jul 2026</time></p>
-            <h3>How we run a playtest that people argue about</h3>
-            <span class="article-go" aria-hidden="true"><svg class="ico"><use href="#i-arrow-dr"/></svg></span>
-          </div>
-        </a>
-      </article>
-
-      <article class="article-card anim" data-anim="up">
-        <a href="#contact" data-cursor="read">
-          <div class="article-art">
-            <div class="article-art-inner" data-par-scroll=".05">
-              <svg viewBox="0 0 800 460" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Article artwork: Bloom Valley launch"><rect width="800" height="460" fill="#FFF1E6"/><circle cx="400" cy="230" r="130" fill="#4D194D"/><circle cx="400" cy="150" r="52" fill="#FF7B00"/><circle cx="480" cy="230" r="52" fill="#FF7B00"/><circle cx="400" cy="310" r="52" fill="#FF7B00"/><circle cx="320" cy="230" r="52" fill="#FF7B00"/><circle cx="400" cy="230" r="38" fill="#FFF1E6"/></svg>
-            </div>
-          </div>
-          <div class="article-body">
-            <p class="article-meta"><span class="cat">Launch</span><time datetime="2026-06-12">12 Jun 2026</time></p>
-            <h3>Bloom Valley is out now on iOS and Android</h3>
-            <span class="article-go" aria-hidden="true"><svg class="ico"><use href="#i-arrow-dr"/></svg></span>
-          </div>
-        </a>
-      </article>
-    </div>
-  </div>
-</section>
-
-</main>
-
-<!-- ================= FOOTER ================= -->
-<footer class="site-footer" id="contact" data-section="contact">
-  <div class="footer-shape fs-a" data-par="16" data-par-scroll="-.1" aria-hidden="true"></div>
-  <div class="footer-shape fs-b" data-par="-20" data-par-scroll=".12" aria-hidden="true"></div>
-
-  <div class="wrap">
-    <div class="footer-statement">
-      <h2 class="footer-title">
-        <span class="line"><span>See you in</span></span>
-        <span class="line"><span>the game.</span></span>
-      </h2>
-      <a class="big-arrow anim" data-anim="scale" href="#top" aria-label="Back to top" data-magnetic data-cursor="top">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg>
+  <header class="site-header" id="siteHeader">
+    <div class="header-inner">
+      <a class="logo" href="#top" aria-label="GOYO Games home" data-cursor="top">
+        <span class="goyo-logo" aria-hidden="true"><span class="goyo-word">G<span class="goyo-eye" data-logo-eye><i></i></span>Y<span class="goyo-eye" data-logo-eye><i></i></span></span><span class="goyo-sub">Games</span></span>
       </a>
-    </div>
-
-    <div class="footer-cta anim" data-anim="up">
-      <a class="btn btn-orange btn-lg" href="mailto:hello@goyogames.com" data-magnetic data-cursor="mail">Say hello <span class="btn-arrows" aria-hidden="true"><svg class="ico"><use href="#i-arrow"/></svg><svg class="ico"><use href="#i-arrow"/></svg></span></a>
-      <p>Got a game, a pitch or a question? <strong>hello@goyogames.com</strong></p>
-    </div>
-
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <img src="assets/brand/logo_cream-400.png" alt="GOYO Games" width="400" height="196" loading="lazy" decoding="async">
-        <p>Games that feel simple to enter, fun to master.</p>
-      </div>
-
-      <nav class="footer-nav" aria-label="Footer">
-        <div>
-          <h3>Studio</h3>
-          <ul>
-            <li><a href="#games">Games</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#careers">Careers</a></li>
-            <li><a href="#news">News</a></li>
-          </ul>
-        </div>
-        <div>
-          <h3>Contact</h3>
-          <ul>
-            <li><a href="mailto:hello@goyogames.com">hello@goyogames.com</a></li>
-            <li><a href="mailto:press@goyogames.com">press@goyogames.com</a></li>
-            <li><a href="mailto:jobs@goyogames.com">jobs@goyogames.com</a></li>
-          </ul>
-        </div>
+      <nav class="film-nav" aria-label="Primary navigation">
+        <a href="#film">Experience</a><a href="#studio">Studio</a><a href="#contact">Contact</a>
       </nav>
-
-      <div class="footer-social">
-        <h3>Follow the build</h3>
-        <ul>
-          <li><a href="#contact" aria-label="GOYO Games on X"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></a></li>
-          <li><a href="#contact" aria-label="GOYO Games on Discord"><svg class="ico" aria-hidden="true"><use href="#i-dc"/></svg></a></li>
-          <li><a href="#contact" aria-label="GOYO Games on YouTube"><svg class="ico" aria-hidden="true"><use href="#i-yt"/></svg></a></li>
-          <li><a href="#contact" aria-label="GOYO Games on LinkedIn"><svg class="ico" aria-hidden="true"><use href="#i-in"/></svg></a></li>
-        </ul>
-      </div>
+      <a class="header-index" href="#contact" data-cursor="mail"><span>Independent studio</span><b>IN / 26</b></a>
     </div>
+  </header>
 
-    <div class="footer-mark" aria-hidden="true">
-      <!-- Two identical halves: translating the track by -50% lands on a
-           matching frame, so the ribbon loops without a seam. -->
-      <div class="footer-mark-track">
-        <span>Play your way.</span><b>&#10022;</b><span>Play your way.</span><b>&#10022;</b><span>Play your way.</span><b>&#10022;</b>
-        <span>Play your way.</span><b>&#10022;</b><span>Play your way.</span><b>&#10022;</b><span>Play your way.</span><b>&#10022;</b>
+  <main>
+    <section class="opening" id="top">
+      <div class="opening-orbit orbit-one" aria-hidden="true"></div>
+      <div class="opening-orbit orbit-two" aria-hidden="true"></div>
+      <div class="opening-grid" aria-hidden="true"></div>
+      <p class="opening-kicker"><i></i> One question before we begin</p>
+      <h1><span>Are you</span><span>ready to</span><em>play?</em></h1>
+      <div class="opening-actions">
+        <a class="enter-link" href="#film" data-cursor="play"><span>Enter</span><svg><use href="#i-arrow"/></svg></a>
+        <p>For players who like<br>the unfamiliar.</p>
       </div>
-    </div>
+      <p class="opening-foot"><span>Scroll to enter</span><i></i><span>Ahmedabad / Everywhere</span></p>
+    </section>
 
+    <section class="scroll-film" id="film" data-film>
+      <div class="film-stage">
+        <div class="film-paper" aria-hidden="true"></div>
+        <div class="film-progress" aria-hidden="true"><span></span><b id="filmCount">01</b></div>
+        <p class="film-corner corner-left">GOYO / PLAY SYSTEM</p>
+        <p class="film-corner corner-right">Scroll / Discover</p>
+
+        <article class="film-scene scene-prologue" data-scene="prologue">
+          <p class="scene-eyebrow">The GOYO experience</p>
+          <h2><span>Games should</span><span>move before</span><em>they explain.</em></h2>
+          <div class="prologue-signal" aria-hidden="true"><i></i><i></i><b>G</b></div>
+        </article>
+
+        <article class="film-scene scene-tower" data-scene="tower">
+          <div class="scene-number">WORLD / 01</div>
+          <div class="canvas-frame tower-frame">
+            <div class="ink-cloud cloud-a"></div><div class="ink-cloud cloud-b"></div>
+            <div class="tower-build" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+          </div>
+          <div class="crop-card crop-tower-a"><span></span><b>KEEP IT<br>STEADY</b></div>
+          <div class="crop-card crop-tower-b"><span></span><b>ONE MOVE<br>AT A TIME</b></div>
+          <div class="story-copy copy-tower"><small>Puzzle / Physics</small><h3>Tumble<br>Tower</h3><p>A simple stack becomes a test of nerve. Every move changes the rhythm.</p></div>
+          <div class="story-note note-tower">Simple to enter.<br><b>Hard to leave.</b></div>
+        </article>
+
+        <article class="film-scene scene-drift" data-scene="drift">
+          <div class="scene-number">WORLD / 02</div>
+          <div class="canvas-frame drift-frame">
+            <div class="drift-sun"></div><div class="drift-road"></div>
+            <div class="drift-machine" aria-hidden="true"><span></span><i></i><i></i></div>
+          </div>
+          <div class="crop-card crop-drift-a"><span></span><b>CHASE THE<br>PERFECT LINE</b></div>
+          <div class="crop-card crop-drift-b"><span></span><b>AGAIN.<br>FASTER.</b></div>
+          <div class="story-copy copy-drift"><small>Arcade / Racing</small><h3>Neon<br>Drift</h3><p>One thumb. One line. Endless reasons to run it again.</p></div>
+          <div class="story-note note-drift">Built for flow.<br><b>Tuned for mastery.</b></div>
+        </article>
+
+        <article class="film-scene scene-bloom" data-scene="bloom">
+          <div class="scene-number">WORLD / 03</div>
+          <div class="canvas-frame bloom-frame">
+            <div class="bloom-disc"></div>
+            <div class="bloom-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><b></b></div>
+          </div>
+          <div class="crop-card crop-bloom-a"><span></span><b>GROW AT<br>YOUR PACE</b></div>
+          <div class="crop-card crop-bloom-b"><span></span><b>MAKE THE<br>WORLD YOURS</b></div>
+          <div class="story-copy copy-bloom"><small>Cozy / Strategy</small><h3>Bloom<br>Valley</h3><p>A small world with room for your own rhythm, choices and stories.</p></div>
+          <div class="story-note note-bloom">A place to play.<br><b>A reason to return.</b></div>
+        </article>
+
+        <article class="film-scene scene-finale" data-scene="finale">
+          <div class="finale-disc" aria-hidden="true"></div>
+          <p>Three worlds / One point of view</p>
+          <h2><span>Play</span><em>your way.</em></h2>
+          <a href="#studio" data-cursor="explore"><span>Meet the studio</span><svg><use href="#i-diagonal"/></svg></a>
+        </article>
+      </div>
+    </section>
+
+    <section class="studio" id="studio">
+      <div class="studio-sticky">
+        <p class="studio-index">The studio / 04</p>
+        <h2><span>Small team.</span><span>Clear pulse.</span></h2>
+        <div class="studio-copy"><p>We are designers, artists and engineers building games around one strong feeling.</p><p>No copied worlds. No filler. Just confident play and systems that keep surprising you.</p></div>
+        <div class="studio-wheel" aria-hidden="true"><span>PLAY</span><i></i><b>GOYO</b></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" id="contact">
+    <p class="footer-index">Start a conversation / 05</p>
+    <div class="footer-call">
+      <h2><span>Let's make</span><span>something</span><em>worth playing.</em></h2>
+      <a href="mailto:hello@goyogames.com" data-cursor="mail"><span>hello@goyogames.com</span><svg><use href="#i-diagonal"/></svg></a>
+    </div>
     <div class="footer-base">
-      <p>&copy; <span id="year">2026</span> GOYO Games. All rights reserved.</p>
-      <p class="footer-tag">Play your way.</p>
+      <a href="#top" aria-label="Back to top" data-cursor="top"><span class="goyo-logo footer-goyo-logo" aria-hidden="true"><span class="goyo-word">G<span class="goyo-eye" data-logo-eye><i></i></span>Y<span class="goyo-eye" data-logo-eye><i></i></span></span><span class="goyo-sub">Games</span></span></a>
+      <p>Ahmedabad, India</p><p>&copy; <span id="year">2026</span> GOYO Games</p>
     </div>
-  </div>
-</footer>
+  </footer>
 
-<script type="module" src="js/main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.39/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/split-type"></script>
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>
