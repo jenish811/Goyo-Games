@@ -2,9 +2,6 @@ export function initAnimations() {
   if (typeof gsap === 'undefined' || typeof Lenis === 'undefined' || typeof SplitType === 'undefined') {
     console.error('Animation libraries missing');
     return;
-  }
-
-  /*
   // 1. Lenis Smooth Scroll
   const lenis = new Lenis({
     duration: 1.4,
@@ -17,7 +14,6 @@ export function initAnimations() {
     lenis.raf(time * 1000);
   });
   gsap.ticker.lagSmoothing(0);
-  */
 
   gsap.registerPlugin(ScrollTrigger);
 
