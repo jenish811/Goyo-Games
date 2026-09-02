@@ -7,6 +7,7 @@
 
 const reduceMotionQuery = matchMedia('(prefers-reduced-motion: reduce)');
 const finePointerQuery = matchMedia('(hover: hover) and (pointer: fine)');
+const coarsePointerQuery = matchMedia('(pointer: coarse)');
 const darkQuery = matchMedia('(prefers-color-scheme: dark)');
 
 const listeners = new Set();
@@ -14,6 +15,8 @@ const listeners = new Set();
 export const env = {
   get reducedMotion() { return reduceMotionQuery.matches; },
   get finePointer() { return finePointerQuery.matches; },
+  /** True on touch/coarse-pointer devices (phones, tablets). */
+  get isTouch() { return coarsePointerQuery.matches; },
   get prefersDark() { return darkQuery.matches; },
   /** Motion is only "rich" on a fine pointer with motion allowed. */
   get richMotion() { return finePointerQuery.matches && !reduceMotionQuery.matches; }

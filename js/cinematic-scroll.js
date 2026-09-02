@@ -35,6 +35,10 @@ export function initCinematicScroll() {
   let frame = null;
   let lastWorld = null;
   let lastWheelTick = -1;
+  let lastWhooshAt = 0;
+  const WHOOSH_COOLDOWN = 350;
+  let lastTickAt = 0;
+  const TICK_COOLDOWN = 70;
 
   function setScene(scene, progress, start, end) {
     if (!scene) return 0;
@@ -111,7 +115,11 @@ export function initCinematicScroll() {
     const world = progress < 0.35 ? '01' : progress < 0.61 ? '02' : progress < 0.84 ? '03' : '04';
     if (count) count.textContent = world;
     if (filmVisible && world !== lastWorld) {
-      if (lastWorld !== null) playWhoosh();
+      const now = performance.now();
+      if (lastWorld !== null && now - lastWhooshAt > WHOOSH_COOLDOWN) {
+        playWhoosh();
+        lastWhooshAt = now;
+      }
       lastWorld = world;
     }
 
@@ -126,7 +134,13 @@ export function initCinematicScroll() {
 
       // A soft tick every ~38° of wheel rotation, like a ratchet.
       const wheelTick = Math.floor((local * 230) / 38);
-      if (local > 0 && local < 1 && wheelTick !== lastWheelTick) playTick();
+      if (local > 0 && local < 1 && wheelTick !== lastWheelTick) {
+        const now = performance.now();
+        if (now - lastTickAt > TICK_COOLDOWN) {
+          playTick();
+          lastTickAt = now;
+        }
+      }
       lastWheelTick = wheelTick;
     }
   }

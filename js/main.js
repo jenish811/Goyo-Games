@@ -4,9 +4,14 @@ import { initHeader, initAnchors } from './nav.js';
 import { initCinematicScroll } from './cinematic-scroll.js';
 import { initAnimations } from './animations.js';
 import { initMagnetic } from './magnetic.js';
+import { env } from './env.js';
 import { setSoundEnabled, isSoundEnabled, isAudioRunning, playClick, playChime, playScroll, playElectric, playTabHover } from './sound.js';
 
 function initParticles() {
+  // Decorative-only canvas animation; skip it on touch devices where
+  // it's just extra continuous main-thread cost for no interaction
+  // payoff (the repulse-on-hover it exists for needs a real cursor).
+  if (env.isTouch) return;
   if (typeof tsParticles === 'undefined') return;
   tsParticles.load("tsparticles", {
     fpsLimit: 60,

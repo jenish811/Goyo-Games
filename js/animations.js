@@ -1,3 +1,4 @@
+import { env } from './env.js';
 import { playPop, playHover, playElectric } from './sound.js';
 
 export function initAnimations() {
@@ -5,17 +6,24 @@ export function initAnimations() {
     console.error('Animation libraries missing');
     return;
   }
-  // 1. Lenis Smooth Scroll
-  const lenis = new Lenis({
-    duration: 1.4,
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    smooth: true,
-  });
+  // 1. Lenis Smooth Scroll — desktop only. On touch devices the OS
+  // already gives native momentum scrolling; layering Lenis's own
+  // rAF-driven scroll interpolation on top of that, alongside GSAP
+  // ScrollTrigger and our own cinematic-scroll.js rAF loop, is one
+  // scroll-cost too many and is what made the page feel stuck/janky
+  // on real phones. ScrollTrigger works fine against native scroll.
+  if (!env.isTouch) {
+    const lenis = new Lenis({
+      duration: 1.4,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smooth: true,
+    });
 
-  lenis.on('scroll', ScrollTrigger.update);
-  gsap.ticker.add((time) => {
-    lenis.raf(time * 1000);
-  });
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => {
+      lenis.raf(time * 1000);
+    });
+  }
   gsap.ticker.lagSmoothing(0);
 
   gsap.registerPlugin(ScrollTrigger);
