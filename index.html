@@ -22,6 +22,8 @@
   <svg class="sprite" aria-hidden="true" width="0" height="0">
     <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6"/></symbol>
     <symbol id="i-diagonal" viewBox="0 0 24 24"><path d="M5 19 19 5M8 5h11v11"/></symbol>
+    <symbol id="i-sound-on" viewBox="0 0 24 24"><path d="M4 9v6h4l5 5V4L8 9H4Z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a9 9 0 0 1 0 12"/></symbol>
+    <symbol id="i-sound-off" viewBox="0 0 24 24"><path d="M4 9v6h4l5 5V4L8 9H4Z"/><path d="m16 9 5 6m0-6-5 6"/></symbol>
   </svg>
 
   <div class="cursor" id="cursor" aria-hidden="true">
@@ -41,6 +43,10 @@
         <a href="#film">Experience</a><a href="#studio">Studio</a><a href="#contact">Contact</a>
       </nav>
       <a class="header-index" href="#contact" data-cursor="mail"><span>Independent studio</span><b>IN / 26</b></a>
+      <button class="sound-toggle" id="soundToggle" type="button" aria-pressed="false" aria-label="Turn sound on">
+        <svg class="sound-icon-on" aria-hidden="true"><use href="#i-sound-on"/></svg>
+        <svg class="sound-icon-off" aria-hidden="true"><use href="#i-sound-off"/></svg>
+      </button>
     </div>
   </header>
 

@@ -1,4 +1,5 @@
 import { clamp } from './env.js';
+import { playWhoosh } from './sound.js';
 
 const mix = (from, to, amount) => from + (to - from) * amount;
 
@@ -32,6 +33,7 @@ export function initCinematicScroll() {
   };
   const towerPieces = Array.from(scenes.tower?.querySelectorAll('.tower-build i') || []);
   let frame = null;
+  let lastWorld = null;
 
   function setScene(scene, progress, start, end) {
     if (!scene) return 0;
@@ -105,11 +107,11 @@ export function initCinematicScroll() {
       scenes.finale.classList.toggle('is-active', opacity > 0.5);
     }
 
-    if (count) {
-      if (progress < 0.35) count.textContent = '01';
-      else if (progress < 0.61) count.textContent = '02';
-      else if (progress < 0.84) count.textContent = '03';
-      else count.textContent = '04';
+    const world = progress < 0.35 ? '01' : progress < 0.61 ? '02' : progress < 0.84 ? '03' : '04';
+    if (count) count.textContent = world;
+    if (filmVisible && world !== lastWorld) {
+      if (lastWorld !== null) playWhoosh();
+      lastWorld = world;
     }
 
     if (studio) {

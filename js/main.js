@@ -3,6 +3,7 @@ import { initLogoEyes } from './logo-eyes.js';
 import { initHeader, initAnchors } from './nav.js';
 import { initCinematicScroll } from './cinematic-scroll.js';
 import { initAnimations } from './animations.js';
+import { setSoundEnabled, isSoundEnabled, playClick, playChime } from './sound.js';
 
 function initParticles() {
   if (typeof tsParticles === 'undefined') return;
@@ -26,6 +27,18 @@ function initParticles() {
   });
 }
 
+function initSoundToggle() {
+  const button = document.getElementById('soundToggle');
+  if (!button) return;
+  button.addEventListener('click', () => {
+    const next = !isSoundEnabled();
+    setSoundEnabled(next);
+    button.setAttribute('aria-pressed', String(next));
+    button.setAttribute('aria-label', next ? 'Turn sound off' : 'Turn sound on');
+    if (next) playClick();
+  });
+}
+
 function initSplash() {
   const splash = document.getElementById('splashScreen');
   if (splash) {
@@ -33,8 +46,14 @@ function initSplash() {
     setTimeout(() => {
       splash.classList.add('is-hidden');
       document.body.classList.remove('no-scroll');
+      playChime();
     }, 2000);
   }
+}
+
+function initClickSounds() {
+  const targets = document.querySelectorAll('.film-nav a, .enter-link, .header-index, .scene-finale > a, .studio-wheel');
+  targets.forEach((el) => el.addEventListener('click', playClick));
 }
 
 function safely(label, init) {
@@ -44,6 +63,8 @@ function safely(label, init) {
 
 safely('header', initHeader);
 safely('anchors', initAnchors);
+safely('sound toggle', initSoundToggle);
+safely('click sounds', initClickSounds);
 safely('cursor', initCursor);
 safely('logo eyes', initLogoEyes);
 safely('cinematic scroll', initCinematicScroll);

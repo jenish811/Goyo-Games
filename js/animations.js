@@ -1,3 +1,5 @@
+import { playPop, playHover } from './sound.js';
+
 export function initAnimations() {
   if (typeof gsap === 'undefined' || typeof Lenis === 'undefined' || typeof SplitType === 'undefined') {
     console.error('Animation libraries missing');
@@ -71,11 +73,13 @@ export function initAnimations() {
       opacity: 0,
       duration: 1.2,
       ease: 'power3.out',
+      onStart: playPop,
       scrollTrigger: {
         trigger: card,
         start: 'top 90%',
       }
     });
+    card.addEventListener('pointerenter', playHover);
   });
 
   // 4. Bouncy Vertical Scene Assemblies (Superplay style)
@@ -91,6 +95,7 @@ export function initAnimations() {
         rotationZ: -2,
         duration: 1.5,
         ease: 'elastic.out(1, 0.7)',
+        onStart: playPop,
         scrollTrigger: { trigger: scene, start: 'top 75%' }
       });
     }
@@ -140,6 +145,7 @@ export function initAnimations() {
       duration: 1.1,
       stagger: 0.15,
       ease: 'power4.out',
+      onStart: playPop,
       scrollTrigger: { trigger: '.footer-call', start: 'top 85%' }
     });
   }
@@ -152,7 +158,10 @@ export function initAnimations() {
       opacity: 0,
       duration: 1.4,
       ease: 'elastic.out(1, 0.6)',
+      delay: 0.3,
+      onStart: playPop,
       scrollTrigger: { trigger: footerCircle, start: 'top 85%' }
     });
+    footerCircle.addEventListener('pointerenter', playHover);
   }
 }
