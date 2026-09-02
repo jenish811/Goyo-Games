@@ -3,6 +3,7 @@ import { initLogoEyes } from './logo-eyes.js';
 import { initHeader, initAnchors } from './nav.js';
 import { initCinematicScroll } from './cinematic-scroll.js';
 import { initAnimations } from './animations.js';
+import { initMagnetic } from './magnetic.js';
 import { setSoundEnabled, isSoundEnabled, playClick, playChime } from './sound.js';
 
 function initParticles() {
@@ -67,6 +68,7 @@ safely('sound toggle', initSoundToggle);
 safely('click sounds', initClickSounds);
 safely('cursor', initCursor);
 safely('logo eyes', initLogoEyes);
+safely('magnetic buttons', initMagnetic);
 safely('cinematic scroll', initCinematicScroll);
 safely('splash', initSplash);
 safely('premium animations', initAnimations);
