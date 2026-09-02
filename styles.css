@@ -165,16 +165,17 @@ body.no-scroll{overflow:hidden}a{color:inherit;text-decoration:none}img,svg{disp
 
 /* Premium UI Overrides (No Font Change) */
 .site-header {
-  /* No backdrop-filter: it's one of the most expensive things a
-     browser can composite every frame, and WebKit (Safari/macOS)
-     pays for it far more than Chromium does -- especially with a
-     fixed header sitting over a continuously-updating pinned scroll.
-     A solid-enough translucent background reads the same at a glance. */
-  background: rgba(9, 9, 7, 0.82) !important;
+  /* Same frosted-glass look, lighter blur radius: a big blur is one
+     of the most expensive things a browser recomposites every frame,
+     and it sits over a continuously-updating pinned scroll here. A
+     smaller radius keeps the effect while cutting that cost a lot. */
+  background: rgba(9, 9, 7, 0.55) !important;
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 .film-light .site-header {
-  background: rgba(255, 241, 230, 0.85) !important;
+  background: rgba(255, 241, 230, 0.55) !important;
 }
 
 .canvas-frame {
@@ -188,7 +189,9 @@ body.no-scroll{overflow:hidden}a{color:inherit;text-decoration:none}img,svg{disp
 }
 
 .crop-card {
-  background: rgba(30, 28, 26, 0.62) !important;
+  background: rgba(30, 28, 26, 0.45) !important;
+  backdrop-filter: blur(7px) !important;
+  -webkit-backdrop-filter: blur(7px) !important;
   border: 1px solid rgba(255, 255, 255, 0.15) !important;
   border-radius: 12px !important;
   color: #fff !important;
@@ -215,7 +218,9 @@ body.no-scroll{overflow:hidden}a{color:inherit;text-decoration:none}img,svg{disp
 }
 
 .story-note {
-  background: rgba(0, 0, 0, 0.72) !important;
+  background: rgba(0, 0, 0, 0.5) !important;
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
   border-radius: 12px !important;
   color: #fff !important;

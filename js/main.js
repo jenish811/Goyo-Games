@@ -4,17 +4,19 @@ import { initHeader, initAnchors } from './nav.js';
 import { initCinematicScroll } from './cinematic-scroll.js';
 import { initAnimations } from './animations.js';
 import { initMagnetic } from './magnetic.js';
-import { env } from './env.js';
 import { setSoundEnabled, isSoundEnabled, isAudioRunning, playClick, playChime, playScroll, playElectric, playTabHover } from './sound.js';
 
+// The browser tries to restore the previous scroll position on a
+// reload by default. Every visual here (splash screen, scene opacity,
+// header state) assumes it's starting from the top, so a refresh
+// landing back at 50% looks broken -- always start fresh instead.
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+window.scrollTo(0, 0);
+
 function initParticles() {
-  // Decorative-only canvas animation; skip it on touch devices where
-  // it's just extra continuous main-thread cost for no interaction
-  // payoff (the repulse-on-hover it exists for needs a real cursor).
-  if (env.isTouch) return;
   if (typeof tsParticles === 'undefined') return;
   tsParticles.load("tsparticles", {
-    fpsLimit: 60,
+    fpsLimit: 30,
     background: { color: "transparent" },
     interactivity: {
       events: { onHover: { enable: true, mode: "repulse" }, resize: true },
@@ -29,7 +31,11 @@ function initParticles() {
       shape: { type: "circle" },
       size: { value: { min: 1, max: 3 } }
     },
-    detectRetina: true
+    // Same particles, same count, everywhere -- just capped to a lower
+    // internal render resolution so a Retina/high-DPI screen isn't pushed
+    // 4x the pixels for what's still visually the same effect at 1.5x.
+    detectRetina: false,
+    pixelRatio: 1.5
   });
 }
 
