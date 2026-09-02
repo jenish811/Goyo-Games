@@ -165,13 +165,16 @@ body.no-scroll{overflow:hidden}a{color:inherit;text-decoration:none}img,svg{disp
 
 /* Premium UI Overrides (No Font Change) */
 .site-header {
-  background: rgba(9, 9, 7, 0.4) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
+  /* No backdrop-filter: it's one of the most expensive things a
+     browser can composite every frame, and WebKit (Safari/macOS)
+     pays for it far more than Chromium does -- especially with a
+     fixed header sitting over a continuously-updating pinned scroll.
+     A solid-enough translucent background reads the same at a glance. */
+  background: rgba(9, 9, 7, 0.82) !important;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 .film-light .site-header {
-  background: rgba(255, 241, 230, 0.4) !important;
+  background: rgba(255, 241, 230, 0.85) !important;
 }
 
 .canvas-frame {
@@ -185,9 +188,7 @@ body.no-scroll{overflow:hidden}a{color:inherit;text-decoration:none}img,svg{disp
 }
 
 .crop-card {
-  background: rgba(255, 255, 255, 0.05) !important;
-  backdrop-filter: blur(15px) !important;
-  -webkit-backdrop-filter: blur(15px) !important;
+  background: rgba(30, 28, 26, 0.62) !important;
   border: 1px solid rgba(255, 255, 255, 0.15) !important;
   border-radius: 12px !important;
   color: #fff !important;
@@ -214,9 +215,7 @@ body.no-scroll{overflow:hidden}a{color:inherit;text-decoration:none}img,svg{disp
 }
 
 .story-note {
-  background: rgba(0, 0, 0, 0.4) !important;
-  backdrop-filter: blur(10px) !important;
-  -webkit-backdrop-filter: blur(10px) !important;
+  background: rgba(0, 0, 0, 0.72) !important;
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
   border-radius: 12px !important;
   color: #fff !important;
@@ -232,13 +231,6 @@ body.no-scroll{overflow:hidden}a{color:inherit;text-decoration:none}img,svg{disp
 .scene-drift .story-copy { color: #ffffff; text-shadow: 0 4px 12px rgba(0,0,0,0.5); }
 
 @media(max-width:900px){
-  /* backdrop-filter is a heavy per-frame compositing cost on mobile
-     GPUs, and this page has several of it stacked under a long pinned
-     scroll -- swap to plain opaque backgrounds on small screens. */
-  .site-header{background:rgba(9,9,7,.86) !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important}
-  .film-light .site-header{background:rgba(255,241,230,.92) !important}
-  .crop-card{background:rgba(20,20,20,.72) !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important}
-  .story-note{background:rgba(0,0,0,.72) !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important}
   :root{--pad:20px}.cursor{display:none}.has-cursor,.has-cursor a,.has-cursor button{cursor:auto}.film-nav{display:none}.header-inner{grid-template-columns:1fr auto auto;gap:12px}.header-index span{display:none}.site-header{padding-top:18px}.goyo-word{font-size:36px}.goyo-eye{width:25.92px;height:25.92px}.goyo-sub{font-size:10px;letter-spacing:3.9px}
   .opening{padding-top:130px}.opening h1{font-size:clamp(70px,20vw,115px)}.opening-actions{gap:25px}.opening-actions p{display:none}.opening-foot span:last-child{display:none}.opening-grid{background-size:20vw 20vw}
   .scroll-film{height:690vh}.film-corner{top:95px}.corner-right{display:none}.film-progress{left:20px;bottom:18px}.scene-number{right:20px;bottom:18px}.scene-prologue h2{font-size:clamp(62px,18vw,105px)}.scene-prologue .scene-eyebrow{top:20%}.prologue-signal{right:-45px;bottom:8%;width:130px;height:130px}
