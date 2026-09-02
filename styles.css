@@ -160,8 +160,8 @@ body.no-scroll{overflow:hidden}a{color:inherit;text-decoration:none}img,svg{disp
 .scene-prologue{--scene-opacity:1}
 .film-nav a{display:block;color:inherit}
 .opening h1{opacity:var(--opening-fade,1);transform:translateY(var(--opening-y,0)) scale(var(--opening-scale,1));will-change:transform,opacity}
-.footer-call h2 span:first-child{transform:translateX(var(--footer-x,0));will-change:transform}
-.footer-call h2 span:nth-child(2),.footer-call h2 em{transform:translateX(var(--footer-x2,0));will-change:transform}
+.footer-call h2 span:first-child{transform:translateX(var(--footer-x,0))}
+.footer-call h2 span:nth-child(2),.footer-call h2 em{transform:translateX(var(--footer-x2,0))}
 
 /* Premium UI Overrides (No Font Change) */
 .site-header {
