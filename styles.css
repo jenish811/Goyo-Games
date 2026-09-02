@@ -214,6 +214,30 @@ body.no-scroll{overflow:hidden}a{color:inherit;text-decoration:none}img,svg{disp
   color: #fff !important;
 }
 
+/* Superplay-style Vertical Scroll Layout */
+.scroll-film { height: auto !important; }
+.film-stage { position: relative !important; height: auto !important; overflow: visible !important; background: transparent !important; }
+.film-scene { position: relative !important; inset: auto !important; opacity: 1 !important; pointer-events: auto !important; min-height: 100vh !important; display: flex !important; align-items: center !important; justify-content: center !important; padding: 120px 0 !important; overflow: hidden; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.film-paper, .film-progress, .film-corner, .scene-number { display: none !important; }
+
+/* Reset Canvas Frames for vertical flow */
+.canvas-frame { position: relative !important; transform: none !important; left: auto !important; top: auto !important; width: 90vw !important; max-width: 1000px !important; height: 65vh !important; margin: 0 auto; }
+.scene-prologue { transform: none !important; }
+.scene-finale { transform: none !important; min-height: 100vh !important; }
+.finale-disc { transform: scale(1) translate(-50%, -50%) !important; width: 200vmax !important; }
+
+/* Reset absolute positions so they stick to the section */
+.story-copy { transform: translateY(-50%) !important; }
+.story-note { transform: none !important; top: 15% !important; }
+.crop-card { transform: none !important; }
+
+/* Section Backgrounds to differentiate them in Dark Mode */
+.scene-prologue { background: var(--ink); }
+.scene-tower { background: var(--ink-soft); }
+.scene-drift { background: #140d05; }
+.scene-bloom { background: #1a101a; }
+.scene-finale { background: var(--ink); }
+
 @media(max-width:900px){
   :root{--pad:20px}.cursor{display:none}.has-cursor,.has-cursor a,.has-cursor button{cursor:auto}.film-nav{display:none}.header-inner{grid-template-columns:1fr auto}.header-index span{display:none}.site-header{padding-top:18px}.goyo-word{font-size:36px}.goyo-eye{width:25.92px;height:25.92px}.goyo-sub{font-size:10px;letter-spacing:3.9px}
   .opening{padding-top:130px}.opening h1{font-size:clamp(70px,20vw,115px)}.opening-actions{gap:25px}.opening-actions p{display:none}.opening-foot span:last-child{display:none}.opening-grid{background-size:20vw 20vw}

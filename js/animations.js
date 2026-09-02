@@ -75,4 +75,55 @@ export function initAnimations() {
       }
     });
   });
+
+  // 4. Bouncy Vertical Scene Assemblies (Superplay style)
+  const scenes = document.querySelectorAll('.film-scene');
+  scenes.forEach(scene => {
+    const canvas = scene.querySelector('.canvas-frame');
+    if (canvas) {
+      gsap.from(canvas, {
+        scale: 0.6,
+        opacity: 0,
+        rotationZ: -2,
+        duration: 1.5,
+        ease: 'elastic.out(1, 0.7)',
+        scrollTrigger: { trigger: scene, start: 'top 75%' }
+      });
+    }
+    
+    const towerPieces = scene.querySelectorAll('.tower-build i');
+    if (towerPieces.length) {
+      gsap.from(towerPieces, {
+        y: -300,
+        rotationZ: () => Math.random() * 60 - 30,
+        opacity: 0,
+        duration: 1.5,
+        stagger: 0.15,
+        ease: 'bounce.out',
+        scrollTrigger: { trigger: scene, start: 'top 60%' }
+      });
+    }
+
+    const car = scene.querySelector('.drift-machine');
+    if (car) {
+      gsap.from(car, {
+        x: -400,
+        rotationZ: -30,
+        duration: 1.2,
+        ease: 'power3.out',
+        scrollTrigger: { trigger: scene, start: 'top 60%' }
+      });
+    }
+
+    const flower = scene.querySelector('.bloom-mark');
+    if (flower) {
+      gsap.from(flower, {
+        scale: 0,
+        rotationZ: -180,
+        duration: 1.5,
+        ease: 'elastic.out(1, 0.5)',
+        scrollTrigger: { trigger: scene, start: 'top 60%' }
+      });
+    }
+  });
 }
