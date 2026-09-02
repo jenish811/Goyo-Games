@@ -19,7 +19,6 @@ export function initCinematicScroll() {
   const stage = film?.querySelector('.film-stage');
   const opening = document.querySelector('.opening');
   const studio = document.querySelector('.studio');
-  const footer = document.querySelector('.site-footer');
   const count = document.getElementById('filmCount');
 
   if (!film || !stage) return;
@@ -121,13 +120,6 @@ export function initCinematicScroll() {
       studio.style.setProperty('--studio-line-x2', mix(180, -80, local).toFixed(2) + 'px');
       studio.style.setProperty('--studio-r', (local * 230).toFixed(2) + 'deg');
       studio.style.setProperty('--studio-scale', mix(0.62, 1.08, smoothstep(0, 1, local)).toFixed(4));
-    }
-
-    if (footer) {
-      const rect = footer.getBoundingClientRect();
-      const local = clamp((viewport - rect.top) / (viewport + rect.height), 0, 1);
-      footer.style.setProperty('--footer-x', mix(-110, 40, local).toFixed(2) + 'px');
-      footer.style.setProperty('--footer-x2', mix(110, -40, local).toFixed(2) + 'px');
     }
   }
 

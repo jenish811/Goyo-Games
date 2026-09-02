@@ -19,7 +19,10 @@ export function initAnimations() {
   gsap.registerPlugin(ScrollTrigger);
 
   // 2. Text Reveal via GSAP + SplitType
-  const headings = document.querySelectorAll('h1, h2, .story-copy h3');
+  // .footer-call h2 is excluded: its span/em children are hand-structured
+  // as one line each, and SplitType's word-wrapping collapses that layout.
+  const headings = Array.from(document.querySelectorAll('h1, h2, .story-copy h3'))
+    .filter((heading) => !heading.closest('.footer-call'));
 
   headings.forEach((heading) => {
     const isTopHeading = heading.tagName.toLowerCase() === 'h1';
