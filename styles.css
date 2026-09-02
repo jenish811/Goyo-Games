@@ -37,19 +37,27 @@ body.no-scroll{overflow:hidden}a{color:inherit;text-decoration:none}img,svg{disp
 }
 
 /* UI Improvements for Game Studio Feel */
-.scanlines {
+.vignette {
   position: fixed;
   z-index: 9998;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.15) 50%, rgba(0,0,0,0.15));
-  background-size: 100% 4px;
-  animation: scanline-flicker 0.1s infinite;
+  background: radial-gradient(circle at center, transparent 40%, rgba(0,0,0,0.8) 120%);
+  mix-blend-mode: multiply;
 }
-@keyframes scanline-flicker {
-  0% { opacity: 0.8; }
-  50% { opacity: 1; }
-  100% { opacity: 0.9; }
+
+.goyo-logo {
+  transition: text-shadow 0.3s ease;
+}
+.logo:hover .goyo-logo {
+  text-shadow: 3px 0 red, -3px 0 cyan;
+  animation: logo-glitch 0.2s infinite;
+}
+@keyframes logo-glitch {
+  0% { transform: translate(1px, 1px); }
+  33% { transform: translate(-1px, 0); }
+  66% { transform: translate(0, -1px); }
+  100% { transform: translate(1px, 1px); }
 }
 
 .cursor-ring {
@@ -146,6 +154,65 @@ body.no-scroll{overflow:hidden}a{color:inherit;text-decoration:none}img,svg{disp
 .opening h1{opacity:var(--opening-fade,1);transform:translateY(var(--opening-y,0)) scale(var(--opening-scale,1));will-change:transform,opacity}
 .footer-call h2 span:first-child{transform:translateX(var(--footer-x,0));will-change:transform}
 .footer-call h2 span:nth-child(2),.footer-call h2 em{transform:translateX(var(--footer-x2,0));will-change:transform}
+
+/* Premium UI Overrides (No Font Change) */
+.site-header {
+  background: rgba(9, 9, 7, 0.4) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+.film-light .site-header {
+  background: rgba(255, 241, 230, 0.4) !important;
+}
+
+.canvas-frame {
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.6) !important;
+}
+.canvas-frame::after {
+  border-radius: 14px !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.crop-card {
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(15px) !important;
+  -webkit-backdrop-filter: blur(15px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 12px !important;
+  color: #fff !important;
+}
+.crop-card b {
+  color: #fff !important;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+.crop-card span {
+  border-radius: 6px !important;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+}
+
+.enter-link {
+  border-radius: 12px !important;
+  background: linear-gradient(135deg, var(--orange), #ff3300) !important;
+  border: 1px solid rgba(255,255,255,0.3) !important;
+  box-shadow: 0 10px 20px rgba(255, 123, 0, 0.4), inset 0 2px 2px rgba(255,255,255,0.4) !important;
+  color: #fff !important;
+}
+
+.opening-actions p {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.story-note {
+  background: rgba(0, 0, 0, 0.4) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 12px !important;
+  color: #fff !important;
+}
 
 @media(max-width:900px){
   :root{--pad:20px}.cursor{display:none}.has-cursor,.has-cursor a,.has-cursor button{cursor:auto}.film-nav{display:none}.header-inner{grid-template-columns:1fr auto}.header-index span{display:none}.site-header{padding-top:18px}.goyo-word{font-size:36px}.goyo-eye{width:25.92px;height:25.92px}.goyo-sub{font-size:10px;letter-spacing:3.9px}
