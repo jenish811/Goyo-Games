@@ -1,4 +1,4 @@
-import { playPop, playHover } from './sound.js';
+import { playPop, playHover, playElectric } from './sound.js';
 
 export function initAnimations() {
   if (typeof gsap === 'undefined' || typeof Lenis === 'undefined' || typeof SplitType === 'undefined') {
@@ -79,7 +79,7 @@ export function initAnimations() {
         start: 'top 90%',
       }
     });
-    card.addEventListener('pointerenter', playHover);
+    card.addEventListener('pointerenter', playElectric);
   });
 
   // 4. Bouncy Vertical Scene Assemblies (Superplay style)

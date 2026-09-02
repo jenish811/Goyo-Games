@@ -1,5 +1,5 @@
 import { clamp } from './env.js';
-import { playWhoosh } from './sound.js';
+import { playWhoosh, playTick } from './sound.js';
 
 const mix = (from, to, amount) => from + (to - from) * amount;
 
@@ -34,6 +34,7 @@ export function initCinematicScroll() {
   const towerPieces = Array.from(scenes.tower?.querySelectorAll('.tower-build i') || []);
   let frame = null;
   let lastWorld = null;
+  let lastWheelTick = -1;
 
   function setScene(scene, progress, start, end) {
     if (!scene) return 0;
@@ -122,6 +123,11 @@ export function initCinematicScroll() {
       studio.style.setProperty('--studio-line-x2', mix(180, -80, local).toFixed(2) + 'px');
       studio.style.setProperty('--studio-r', (local * 230).toFixed(2) + 'deg');
       studio.style.setProperty('--studio-scale', mix(0.62, 1.08, smoothstep(0, 1, local)).toFixed(4));
+
+      // A soft tick every ~38° of wheel rotation, like a ratchet.
+      const wheelTick = Math.floor((local * 230) / 38);
+      if (local > 0 && local < 1 && wheelTick !== lastWheelTick) playTick();
+      lastWheelTick = wheelTick;
     }
   }
 

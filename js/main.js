@@ -4,7 +4,7 @@ import { initHeader, initAnchors } from './nav.js';
 import { initCinematicScroll } from './cinematic-scroll.js';
 import { initAnimations } from './animations.js';
 import { initMagnetic } from './magnetic.js';
-import { setSoundEnabled, isSoundEnabled, playClick, playChime } from './sound.js';
+import { setSoundEnabled, isSoundEnabled, playClick, playChime, playScroll, playElectric, playTabHover } from './sound.js';
 
 function initParticles() {
   if (typeof tsParticles === 'undefined') return;
@@ -31,8 +31,31 @@ function initParticles() {
 function initSoundToggle() {
   const button = document.getElementById('soundToggle');
   if (!button) return;
+
+  // Sound defaults to "on": the icon starts unmuted, and the very first
+  // gesture anywhere on the page (not just this button) unlocks the
+  // AudioContext, since browsers block audio before one. Muting is a
+  // deliberate, explicit click on this button.
+  let userMuted = false;
+  button.setAttribute('aria-pressed', 'true');
+  button.setAttribute('aria-label', 'Turn sound off');
+
+  function unlockOnce() {
+    if (userMuted) return;
+    setSoundEnabled(true);
+    window.removeEventListener('pointerdown', unlockOnce);
+    window.removeEventListener('keydown', unlockOnce);
+    window.removeEventListener('wheel', unlockOnce);
+    window.removeEventListener('touchstart', unlockOnce);
+  }
+  window.addEventListener('pointerdown', unlockOnce, { passive: true });
+  window.addEventListener('keydown', unlockOnce, { passive: true });
+  window.addEventListener('wheel', unlockOnce, { passive: true });
+  window.addEventListener('touchstart', unlockOnce, { passive: true });
+
   button.addEventListener('click', () => {
     const next = !isSoundEnabled();
+    userMuted = !next;
     setSoundEnabled(next);
     button.setAttribute('aria-pressed', String(next));
     button.setAttribute('aria-label', next ? 'Turn sound off' : 'Turn sound on');
@@ -57,6 +80,29 @@ function initClickSounds() {
   targets.forEach((el) => el.addEventListener('click', playClick));
 }
 
+function initElectricHover() {
+  // Nav tabs get a soft click on hover; crop-cards get the electric zap
+  // (wired in animations.js, replacing the synthesized hover tick there).
+  const tabs = document.querySelectorAll('.film-nav a');
+  tabs.forEach((el) => el.addEventListener('pointerenter', playTabHover));
+}
+
+function initScrollSound() {
+  const COOLDOWN = 700;
+  let lastY = window.scrollY;
+  let lastPlayed = 0;
+
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    const now = performance.now();
+    if (now - lastPlayed > COOLDOWN) {
+      playScroll(y >= lastY ? 1 : -1);
+      lastPlayed = now;
+    }
+    lastY = y;
+  }, { passive: true });
+}
+
 function safely(label, init) {
   try { return init(); }
   catch (error) { console.error(`[goyo] ${label} failed`, error); return null; }
@@ -66,6 +112,8 @@ safely('header', initHeader);
 safely('anchors', initAnchors);
 safely('sound toggle', initSoundToggle);
 safely('click sounds', initClickSounds);
+safely('electric hover', initElectricHover);
+safely('scroll sound', initScrollSound);
 safely('cursor', initCursor);
 safely('logo eyes', initLogoEyes);
 safely('magnetic buttons', initMagnetic);

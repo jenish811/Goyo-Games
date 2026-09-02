@@ -10,6 +10,16 @@ let masterGain = null;
 let noiseBuffer = null;
 let enabled = false;
 
+const SAMPLE_URLS = {
+  eyeMove: 'assets/sfx/eye-move.mp3',
+  eyeBlink: 'assets/sfx/eye-blink.mp3',
+  scroll: 'assets/sfx/scroll.mp3',
+  electric: 'assets/sfx/electric.mp3',
+  tabHover: 'assets/sfx/tab-hover.mp3'
+};
+const sampleBuffers = {};
+const samplePromises = {};
+
 function ensureContext() {
   if (!ctx) {
     const Ctx = window.AudioContext || window.webkitAudioContext;
@@ -19,9 +29,34 @@ function ensureContext() {
     masterGain.gain.value = 0.4;
     masterGain.connect(ctx.destination);
     noiseBuffer = buildNoiseBuffer(ctx);
+    preloadSamples();
   }
   if (ctx.state === 'suspended') ctx.resume();
   return true;
+}
+
+function preloadSamples() {
+  Object.entries(SAMPLE_URLS).forEach(([key, url]) => {
+    samplePromises[key] = fetch(url)
+      .then((res) => res.arrayBuffer())
+      .then((data) => ctx.decodeAudioData(data))
+      .then((buffer) => { sampleBuffers[key] = buffer; })
+      .catch(() => { /* sample missing/unsupported — sfx falls back silently */ });
+  });
+}
+
+/** Plays a preloaded sample by key (see SAMPLE_URLS). No-op until it has loaded. */
+function playSample(key, { gain = 0.5, rate = 1 } = {}) {
+  if (!enabled || !ctx) return;
+  const buffer = sampleBuffers[key];
+  if (!buffer) return;
+  const src = ctx.createBufferSource();
+  const g = ctx.createGain();
+  src.buffer = buffer;
+  src.playbackRate.value = rate;
+  g.gain.value = gain;
+  src.connect(g).connect(masterGain);
+  src.start();
 }
 
 function buildNoiseBuffer(audioCtx) {
@@ -120,6 +155,37 @@ export function playHover() {
 export function playClick() {
   tone({ freq: 340, glideTo: 130, type: 'square', duration: 0.09, gain: 0.08, filterFreq: 1800 });
   noiseSweep({ duration: 0.06, gain: 0.05, startFreq: 1200, endFreq: 400, type: 'lowpass' });
+}
+
+/** A single mechanical click, for the studio wheel's rotation. */
+export function playTick() {
+  tone({ freq: 900, type: 'square', duration: 0.045, gain: 0.05, filterFreq: 4500 });
+  noiseSweep({ duration: 0.03, gain: 0.03, startFreq: 3000, endFreq: 1200, type: 'lowpass' });
+}
+
+/** Hover on the neon-outlined nav pill — sampled electric zap. */
+export function playElectric() {
+  playSample('electric', { gain: 0.3 });
+}
+
+/** Hover on a nav tab — sampled soft click. */
+export function playTabHover() {
+  playSample('tabHover', { gain: 0.35 });
+}
+
+/** The GOYO logo's blink — sampled "cartoon blink" clip. */
+export function playBlink() {
+  playSample('eyeBlink', { gain: 0.5 });
+}
+
+/** The GOYO logo's pupil tracking the pointer — sampled xylophone blip. */
+export function playEyeMove() {
+  playSample('eyeMove', { gain: 0.35, rate: 1.15 });
+}
+
+/** Page scroll — sampled scroll swoosh, direction sets pitch (up vs down). */
+export function playScroll(direction = 1) {
+  playSample('scroll', { gain: 0.22, rate: direction >= 0 ? 1 : 0.85 });
 }
 
 /** Splash screen resolving into the page — a small rising arpeggio with a tail. */
