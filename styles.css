@@ -235,6 +235,5 @@ body.no-scroll{overflow:hidden}a{color:inherit;text-decoration:none}img,svg{disp
 }
 
 @media(prefers-reduced-motion:reduce){
-  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.goyo-eye{animation-duration:5.5s!important;animation-iteration-count:infinite!important}
-  .scroll-film{height:auto}.film-stage{position:relative;height:auto;overflow:visible;background:var(--paper)}.film-paper,.film-progress,.film-corner,.scene-prologue{display:none}.film-scene{position:relative;inset:auto;min-height:100svh;opacity:1!important}.scene-tower,.scene-drift,.scene-bloom{display:block}.canvas-frame{transform:translate(-50%,-50%) scale(1)}.scene-finale{background:var(--purple)}.finale-disc{display:none}.studio{height:auto}.studio-sticky{position:relative}.studio-wheel{transform:none}
+  .goyo-eye{animation-duration:5.5s!important;animation-iteration-count:infinite!important}
 }

@@ -1,4 +1,4 @@
-import { clamp, env } from './env.js';
+import { clamp } from './env.js';
 
 const mix = (from, to, amount) => from + (to - from) * amount;
 
@@ -23,10 +23,6 @@ export function initCinematicScroll() {
   const count = document.getElementById('filmCount');
 
   if (!film || !stage) return;
-  if (env.reducedMotion) {
-    root.classList.add('reduced-film');
-    return;
-  }
 
   const scenes = {
     prologue: film.querySelector('[data-scene="prologue"]'),
