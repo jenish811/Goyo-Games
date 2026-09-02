@@ -31,7 +31,7 @@ function ensureContext() {
     noiseBuffer = buildNoiseBuffer(ctx);
     preloadSamples();
   }
-  if (ctx.state === 'suspended') ctx.resume();
+  if (ctx.state === 'suspended') ctx.resume().catch(() => { /* needs a qualifying gesture; caller retries */ });
   return true;
 }
 
@@ -69,6 +69,22 @@ function buildNoiseBuffer(audioCtx) {
 
 export function isSoundEnabled() {
   return enabled;
+}
+
+/** True once the AudioContext has actually resumed, not just requested. */
+export function isAudioRunning() {
+  return enabled && ctx?.state === 'running';
+}
+
+/** Diagnostic snapshot — not used by the UI, only for debugging. */
+export function getDebugState() {
+  return {
+    enabled,
+    contextState: ctx?.state ?? 'no context',
+    masterGain: masterGain?.gain.value ?? null,
+    loadedSamples: Object.keys(sampleBuffers),
+    pendingSamples: Object.keys(SAMPLE_URLS).filter((k) => !sampleBuffers[k])
+  };
 }
 
 export function setSoundEnabled(value) {

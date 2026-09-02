@@ -4,7 +4,7 @@ import { initHeader, initAnchors } from './nav.js';
 import { initCinematicScroll } from './cinematic-scroll.js';
 import { initAnimations } from './animations.js';
 import { initMagnetic } from './magnetic.js';
-import { setSoundEnabled, isSoundEnabled, playClick, playChime, playScroll, playElectric, playTabHover } from './sound.js';
+import { setSoundEnabled, isSoundEnabled, isAudioRunning, playClick, playChime, playScroll, playElectric, playTabHover } from './sound.js';
 
 function initParticles() {
   if (typeof tsParticles === 'undefined') return;
@@ -32,26 +32,32 @@ function initSoundToggle() {
   const button = document.getElementById('soundToggle');
   if (!button) return;
 
-  // Sound defaults to "on": the icon starts unmuted, and the very first
-  // gesture anywhere on the page (not just this button) unlocks the
-  // AudioContext, since browsers block audio before one. Muting is a
-  // deliberate, explicit click on this button.
+  // Sound defaults to "on": the icon starts unmuted, and the first
+  // qualifying gesture anywhere on the page (not just this button)
+  // unlocks the AudioContext, since browsers block audio before one.
+  // Scrolling does NOT count as a qualifying gesture in Chrome's
+  // autoplay policy, so this only listens for click/tap/key -- on a
+  // scroll-driven site a visitor's first move is often a scroll, and
+  // wiring that in made the icon show "on" while audio stayed silent.
+  // The listeners stay attached (resume() is cheap and idempotent)
+  // until isAudioRunning() actually confirms it, since resume() is
+  // async and can be rejected on the first try.
   let userMuted = false;
   button.setAttribute('aria-pressed', 'true');
   button.setAttribute('aria-label', 'Turn sound off');
 
-  function unlockOnce() {
-    if (userMuted) return;
+  function tryUnlock() {
+    if (userMuted || isAudioRunning()) return;
     setSoundEnabled(true);
-    window.removeEventListener('pointerdown', unlockOnce);
-    window.removeEventListener('keydown', unlockOnce);
-    window.removeEventListener('wheel', unlockOnce);
-    window.removeEventListener('touchstart', unlockOnce);
+    if (isAudioRunning()) {
+      window.removeEventListener('pointerdown', tryUnlock);
+      window.removeEventListener('keydown', tryUnlock);
+      window.removeEventListener('touchstart', tryUnlock);
+    }
   }
-  window.addEventListener('pointerdown', unlockOnce, { passive: true });
-  window.addEventListener('keydown', unlockOnce, { passive: true });
-  window.addEventListener('wheel', unlockOnce, { passive: true });
-  window.addEventListener('touchstart', unlockOnce, { passive: true });
+  window.addEventListener('pointerdown', tryUnlock, { passive: true });
+  window.addEventListener('keydown', tryUnlock, { passive: true });
+  window.addEventListener('touchstart', tryUnlock, { passive: true });
 
   button.addEventListener('click', () => {
     const next = !isSoundEnabled();
