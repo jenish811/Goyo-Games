@@ -1,14 +1,39 @@
 import { playBlink, playEyeMove } from './sound.js';
 
 const MOVE_SOUND_COOLDOWN = 900;
+const BLINK_SOUND_COOLDOWN = 1000;
 
 export function initLogoEyes() {
   const eyes = Array.from(document.querySelectorAll('[data-logo-eye]'));
   if (!eyes.length) return;
 
+  // The blink CSS animation loops forever on every logo (header, footer,
+  // splash), whether or not that logo is on screen -- so this only plays
+  // the sound for an eye actually in view, and only once per blink even
+  // though a single logo has two eyes (G and Y) blinking in the same
+  // animation tick, which would otherwise double- or quadruple-fire it.
+  const visibleEyes = new Set();
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) visibleEyes.add(entry.target);
+        else visibleEyes.delete(entry.target);
+      });
+    }, { threshold: 0.4 });
+    eyes.forEach((eye) => io.observe(eye));
+  } else {
+    eyes.forEach((eye) => visibleEyes.add(eye));
+  }
+
+  let lastBlinkSound = 0;
   eyes.forEach((eye) => {
     eye.addEventListener('animationiteration', (event) => {
-      if (event.animationName === 'goyo-blink') playBlink();
+      if (event.animationName !== 'goyo-blink') return;
+      if (!visibleEyes.has(eye)) return;
+      const now = performance.now();
+      if (now - lastBlinkSound < BLINK_SOUND_COOLDOWN) return;
+      lastBlinkSound = now;
+      playBlink();
     });
   });
 
